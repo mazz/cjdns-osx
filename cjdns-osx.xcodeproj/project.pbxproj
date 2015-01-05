@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		68B67A9F1A5A2E5E00889FC8 /* CJDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */; };
 		68B67AA11A5A2E5E00889FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AA01A5A2E5E00889FC8 /* main.m */; };
 		68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA21A5A2E5E00889FC8 /* Images.xcassets */; };
 		68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */; };
 		68B67AB21A5A2E5E00889FC8 /* cjdns_osxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */; };
-		68B67ABE1A5A31D600889FC8 /* CJDStatusItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */; };
-		68B67ABF1A5A31D600889FC8 /* CJDStatusItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */; };
+		AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */; };
+		AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */; };
+		AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */; };
+		AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */; };
+		AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,17 +31,21 @@
 /* Begin PBXFileReference section */
 		68B67A981A5A2E5E00889FC8 /* cjdns-osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cjdns-osx.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67A9C1A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68B67A9D1A5A2E5E00889FC8 /* CJDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CJDAppDelegate.h; sourceTree = "<group>"; };
-		68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CJDAppDelegate.m; sourceTree = "<group>"; };
 		68B67AA01A5A2E5E00889FC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		68B67AA21A5A2E5E00889FC8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		68B67AA51A5A2E5E00889FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		68B67AAB1A5A2E5E00889FC8 /* cjdns-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cjdns-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67AB01A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cjdns_osxTests.m; sourceTree = "<group>"; };
-		68B67ABB1A5A31D600889FC8 /* CJDStatusItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJDStatusItemViewController.h; sourceTree = "<group>"; };
-		68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJDStatusItemViewController.m; sourceTree = "<group>"; };
-		68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CJDStatusItemViewController.xib; sourceTree = "<group>"; };
+		AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXStatusItemPopup.h; path = Classes/AXStatusItemPopup.h; sourceTree = "<group>"; };
+		AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXStatusItemPopup.m; path = Classes/AXStatusItemPopup.m; sourceTree = "<group>"; };
+		AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDAppDelegate.h; path = Classes/CJDAppDelegate.h; sourceTree = "<group>"; };
+		AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDAppDelegate.m; path = Classes/CJDAppDelegate.m; sourceTree = "<group>"; };
+		AD7A5AFC1A5B48E40083E3E9 /* DropDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropDownButton.h; path = Classes/DropDownButton.h; sourceTree = "<group>"; };
+		AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropDownButton.m; path = Classes/DropDownButton.m; sourceTree = "<group>"; };
+		AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDPopupContentViewController.h; path = Classes/CJDPopupContentViewController.h; sourceTree = "<group>"; };
+		AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDPopupContentViewController.m; path = Classes/CJDPopupContentViewController.m; sourceTree = "<group>"; };
+		AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CJDPopupContentViewController.xib; path = Classes/CJDPopupContentViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +87,18 @@
 		68B67A9A1A5A2E5E00889FC8 /* cjdns-osx */ = {
 			isa = PBXGroup;
 			children = (
-				68B67A9D1A5A2E5E00889FC8 /* CJDAppDelegate.h */,
-				68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */,
+				AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */,
+				AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */,
+				AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */,
+				AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */,
+				AD7A5AFC1A5B48E40083E3E9 /* DropDownButton.h */,
+				AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */,
+				AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */,
+				AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */,
+				AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */,
 				68B67AA21A5A2E5E00889FC8 /* Images.xcassets */,
 				68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */,
 				68B67A9B1A5A2E5E00889FC8 /* Supporting Files */,
-				68B67ABB1A5A31D600889FC8 /* CJDStatusItemViewController.h */,
-				68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */,
-				68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */,
 			);
 			path = "cjdns-osx";
 			sourceTree = "<group>";
@@ -199,7 +209,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B67ABF1A5A31D600889FC8 /* CJDStatusItemViewController.xib in Resources */,
+				AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */,
 				68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */,
 				68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */,
 			);
@@ -219,9 +229,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B67ABE1A5A31D600889FC8 /* CJDStatusItemViewController.m in Sources */,
 				68B67AA11A5A2E5E00889FC8 /* main.m in Sources */,
-				68B67A9F1A5A2E5E00889FC8 /* CJDAppDelegate.m in Sources */,
+				AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */,
+				AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */,
+				AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */,
+				AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
