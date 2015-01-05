@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 maz. All rights reserved.
 //
 
-#import "MAZStatusItemViewController.h"
+#import "CJDStatusItemViewController.h"
 
-@interface MAZStatusItemViewController ()
+@interface CJDStatusItemViewController ()
 
 @end
 
-@implementation MAZStatusItemViewController
+@implementation CJDStatusItemViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

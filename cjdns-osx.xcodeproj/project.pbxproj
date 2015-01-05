@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		68B67A9F1A5A2E5E00889FC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67A9E1A5A2E5E00889FC8 /* AppDelegate.m */; };
+		68B67A9F1A5A2E5E00889FC8 /* CJDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */; };
 		68B67AA11A5A2E5E00889FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AA01A5A2E5E00889FC8 /* main.m */; };
 		68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA21A5A2E5E00889FC8 /* Images.xcassets */; };
 		68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */; };
 		68B67AB21A5A2E5E00889FC8 /* cjdns_osxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */; };
-		68B67ABE1A5A31D600889FC8 /* MAZStatusItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67ABC1A5A31D600889FC8 /* MAZStatusItemViewController.m */; };
-		68B67ABF1A5A31D600889FC8 /* MAZStatusItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67ABD1A5A31D600889FC8 /* MAZStatusItemViewController.xib */; };
+		68B67ABE1A5A31D600889FC8 /* CJDStatusItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */; };
+		68B67ABF1A5A31D600889FC8 /* CJDStatusItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,17 +29,17 @@
 /* Begin PBXFileReference section */
 		68B67A981A5A2E5E00889FC8 /* cjdns-osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cjdns-osx.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67A9C1A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68B67A9D1A5A2E5E00889FC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		68B67A9E1A5A2E5E00889FC8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		68B67A9D1A5A2E5E00889FC8 /* CJDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CJDAppDelegate.h; sourceTree = "<group>"; };
+		68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CJDAppDelegate.m; sourceTree = "<group>"; };
 		68B67AA01A5A2E5E00889FC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		68B67AA21A5A2E5E00889FC8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		68B67AA51A5A2E5E00889FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		68B67AAB1A5A2E5E00889FC8 /* cjdns-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cjdns-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67AB01A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cjdns_osxTests.m; sourceTree = "<group>"; };
-		68B67ABB1A5A31D600889FC8 /* MAZStatusItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAZStatusItemViewController.h; sourceTree = "<group>"; };
-		68B67ABC1A5A31D600889FC8 /* MAZStatusItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAZStatusItemViewController.m; sourceTree = "<group>"; };
-		68B67ABD1A5A31D600889FC8 /* MAZStatusItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAZStatusItemViewController.xib; sourceTree = "<group>"; };
+		68B67ABB1A5A31D600889FC8 /* CJDStatusItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJDStatusItemViewController.h; sourceTree = "<group>"; };
+		68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJDStatusItemViewController.m; sourceTree = "<group>"; };
+		68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CJDStatusItemViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +81,14 @@
 		68B67A9A1A5A2E5E00889FC8 /* cjdns-osx */ = {
 			isa = PBXGroup;
 			children = (
-				68B67A9D1A5A2E5E00889FC8 /* AppDelegate.h */,
-				68B67A9E1A5A2E5E00889FC8 /* AppDelegate.m */,
+				68B67A9D1A5A2E5E00889FC8 /* CJDAppDelegate.h */,
+				68B67A9E1A5A2E5E00889FC8 /* CJDAppDelegate.m */,
 				68B67AA21A5A2E5E00889FC8 /* Images.xcassets */,
 				68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */,
 				68B67A9B1A5A2E5E00889FC8 /* Supporting Files */,
-				68B67ABB1A5A31D600889FC8 /* MAZStatusItemViewController.h */,
-				68B67ABC1A5A31D600889FC8 /* MAZStatusItemViewController.m */,
-				68B67ABD1A5A31D600889FC8 /* MAZStatusItemViewController.xib */,
+				68B67ABB1A5A31D600889FC8 /* CJDStatusItemViewController.h */,
+				68B67ABC1A5A31D600889FC8 /* CJDStatusItemViewController.m */,
+				68B67ABD1A5A31D600889FC8 /* CJDStatusItemViewController.xib */,
 			);
 			path = "cjdns-osx";
 			sourceTree = "<group>";
@@ -199,7 +199,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B67ABF1A5A31D600889FC8 /* MAZStatusItemViewController.xib in Resources */,
+				68B67ABF1A5A31D600889FC8 /* CJDStatusItemViewController.xib in Resources */,
 				68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */,
 				68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */,
 			);
@@ -219,9 +219,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B67ABE1A5A31D600889FC8 /* MAZStatusItemViewController.m in Sources */,
+				68B67ABE1A5A31D600889FC8 /* CJDStatusItemViewController.m in Sources */,
 				68B67AA11A5A2E5E00889FC8 /* main.m in Sources */,
-				68B67A9F1A5A2E5E00889FC8 /* AppDelegate.m in Sources */,
+				68B67A9F1A5A2E5E00889FC8 /* CJDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +410,7 @@
 				68B67AB71A5A2E5E00889FC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		68B67AB81A5A2E5E00889FC8 /* Build configuration list for PBXNativeTarget "cjdns-osxTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +419,7 @@
 				68B67ABA1A5A2E5E00889FC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

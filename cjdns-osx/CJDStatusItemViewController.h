@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  MAZStatusItemViewController.h
 //  cjdns-osx
 //
 //  Created by maz on 2015-01-04.
@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-
+@interface CJDStatusItemViewController : NSViewController
 
 @end
-

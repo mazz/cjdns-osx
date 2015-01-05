@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 maz. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "CJDAppDelegate.h"
 
-@interface AppDelegate ()
+@interface CJDAppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
 @end
 
-@implementation AppDelegate
+@implementation CJDAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
