@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface CJDAppDelegate : NSObject <NSApplicationDelegate>
 
 
 @end
