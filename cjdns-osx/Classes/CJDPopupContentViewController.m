@@ -7,13 +7,11 @@
 //
 
 #import "CJDPopupContentViewController.h"
-//#import "MAZMetronome.h"
-//#import "MAZAppDelegate.h"
+#import "GCDAsyncUdpSocket.h"
+#import "VOKBenkode.h"
 
 @interface CJDPopupContentViewController () <NSTableViewDelegate,NSTableViewDataSource>
-//@property (weak) IBOutlet NSTableView *tableView;
 - (IBAction)showUtility:(id)sender;
-//- (IBAction)columnChangeSelected:(id)sender;
 - (IBAction)quit:(id)sender;
 @end
 
@@ -34,24 +32,9 @@
     NSLog(@"show util");
 }
 
-//- (IBAction)columnChangeSelected:(id)sender
-//{
-//    NSInteger selectedRow = [self.tableView selectedRow];
-//    
-//    if (selectedRow != -1)
-//    {
-////        NSInteger bpm = [[[[NSUserDefaults standardUserDefaults] objectForKey:@"recents"] objectAtIndex:selectedRow] integerValue];
-////        [[MAZMetronome sharedInstance] startWithBpm:bpm];
-//        [self.statusItemPopup hidePopover];
-////        [self.statusItemPopup setImage:[(MAZAppDelegate*)[NSApp delegate] stringImageWithText:[NSString stringWithFormat:@"%ld", bpm] inverted:YES]];
-//    }
-//    else {
-//        // No row was selected
-//    }
-//}
-
 - (IBAction)quit:(id)sender
 {
     [NSApp terminate:nil];
 }
+
 @end

@@ -16,6 +16,10 @@
 		AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */; };
 		AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */; };
 		AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */; };
+		AD7A5B0B1A5B52210083E3E9 /* VOKBenkode.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */; };
+		AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */; };
+		AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */; };
+		AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,14 @@
 		AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDPopupContentViewController.h; path = Classes/CJDPopupContentViewController.h; sourceTree = "<group>"; };
 		AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDPopupContentViewController.m; path = Classes/CJDPopupContentViewController.m; sourceTree = "<group>"; };
 		AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CJDPopupContentViewController.xib; path = Classes/CJDPopupContentViewController.xib; sourceTree = "<group>"; };
+		AD7A5B091A5B52210083E3E9 /* VOKBenkode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VOKBenkode.h; path = Classes/VOKBenkode.h; sourceTree = "<group>"; };
+		AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VOKBenkode.m; path = Classes/VOKBenkode.m; sourceTree = "<group>"; };
+		AD7A5B0C1A5B524C0083E3E9 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Classes/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Classes/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		AD7A5B0F1A5B88FF0083E3E9 /* CJDNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDNetworkManager.h; path = Classes/CJDNetworkManager.h; sourceTree = "<group>"; };
+		AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDNetworkManager.m; path = Classes/CJDNetworkManager.m; sourceTree = "<group>"; };
+		AD7A5B121A5B8FE70083E3E9 /* NSImage+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+Utils.h"; path = "Classes/NSImage+Utils.h"; sourceTree = "<group>"; };
+		AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+Utils.m"; path = "Classes/NSImage+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +99,12 @@
 		68B67A9A1A5A2E5E00889FC8 /* cjdns-osx */ = {
 			isa = PBXGroup;
 			children = (
+				AD7A5B0C1A5B524C0083E3E9 /* GCDAsyncUdpSocket.h */,
+				AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */,
+				AD7A5B0F1A5B88FF0083E3E9 /* CJDNetworkManager.h */,
+				AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */,
+				AD7A5B091A5B52210083E3E9 /* VOKBenkode.h */,
+				AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */,
 				AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */,
 				AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */,
 				AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */,
@@ -99,6 +117,8 @@
 				68B67AA21A5A2E5E00889FC8 /* Images.xcassets */,
 				68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */,
 				68B67A9B1A5A2E5E00889FC8 /* Supporting Files */,
+				AD7A5B121A5B8FE70083E3E9 /* NSImage+Utils.h */,
+				AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */,
 			);
 			path = "cjdns-osx";
 			sourceTree = "<group>";
@@ -232,6 +252,10 @@
 				68B67AA11A5A2E5E00889FC8 /* main.m in Sources */,
 				AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */,
 				AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */,
+				AD7A5B0B1A5B52210083E3E9 /* VOKBenkode.m in Sources */,
+				AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */,
+				AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */,
+				AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */,
 				AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */,
 				AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */,
 			);
