@@ -9,13 +9,62 @@
 #import "CJDNetworkManager.h"
 #import "GCDAsyncUdpSocket.h"
 #import "VOKBenkode.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "NSData+Digest.h"
+
+typedef void (^CJDCookieCompletionBlock)(NSString *);
+typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
 @interface CJDNetworkManager()
+{
+    CJDCookieCompletionBlock cookieCompletionBlock;
+    CJDPingCompletionBlock pingCompletionBlock;
+}
 @property (strong, nonatomic) GCDAsyncUdpSocket *udpSocket;
 @property (strong, nonatomic) dispatch_queue_t udpQueue;
+- (void)fetchCookie:(void(^)(NSString *cookie))completion;
 @end
 
 @implementation CJDNetworkManager
+
+- (void)fetchCookie:(void(^)(NSString *cookie))completion
+{
+    cookieCompletionBlock = completion;
+//    [self sendData:[]
+    [self send:@{@"q":@"cookie"}];
+}
+
+- (void)ping:(void(^)(NSDictionary *response))completion
+{
+    pingCompletionBlock = completion;
+    [self send:@{@"q":@"ping"}];
+}
+
+- (NSDictionary *)defaultParameters
+{
+    return @{@"txid": CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))};
+}
+
+- (void)send:(NSDictionary *)dictionary
+{
+    NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
+
+    [sendDict addEntriesFromDictionary:[self defaultParameters]];
+    [sendDict addEntriesFromDictionary:dictionary];
+    
+    // if we're about to get a cookie, send `cookie` as the txid so we
+    // can identify it when its received over UDP
+    if ([[sendDict allValues] containsObject:@"cookie"])
+    {
+        [sendDict setObject:@"cookie" forKey:@"txid"];
+    }
+    
+//    NSData *encoded = [VOKBenkode encode:@{@"q":@"ping", @"txid":@"my request"}];
+    NSData *encoded = [VOKBenkode encode:sendDict];
+    //{ "q": "ping", "txid": "my request" }
+    NSLog(@"bencoded: %@", [[NSString alloc] initWithData:encoded encoding:NSUTF8StringEncoding]);
+    [self sendData:[VOKBenkode encode:sendDict]];
+}
 
 + (CJDNetworkManager *)sharedInstance
 {
@@ -98,7 +147,36 @@
       fromAddress:(NSData *)address
 withFilterContext:(id)filterContext
 {
-    NSLog(@"didReceiveData: %@", [[NSString alloc] initWithData:address encoding:NSUTF8StringEncoding]);
+//    NSLog(@"didReceiveData: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    NSDictionary *dataDict = [VOKBenkode decode:data options:0 error:nil];
+    NSLog(@"dataDict: %@", dataDict);
+    if ([[dataDict objectForKey:@"txid"] isEqualToString:@"cookie"])
+    {
+        if (cookieCompletionBlock != nil)
+        {
+            cookieCompletionBlock([dataDict objectForKey:@"cookie"]);
+        }
+    }
+    if ([[dataDict objectForKey:@"q"] isEqualToString:@"pong"])
+    {
+        if (pingCompletionBlock != nil)
+        {
+            pingCompletionBlock(dataDict);
+        }
+    }
+
+//    NSLog(@"filterContext: %@", filterContext);
+//    NSLog(@"didReceiveData: %@", [[NSString alloc] initWithData:address encoding:NSUTF8StringEncoding]);
+//    NSError *error = nil;
+//    
+//    NSDictionary *dataDict = (NSDictionary *)data;
+//    NSLog(@"dataDict: %@", dataDict);
+    
+//    NSDictionary *dictFromData = [NSJSONSerialization JSONObjectWithData:data
+//                                                                 options:NSJSONReadingAllowFragments
+//                                                                   error:&error];
+//    NSLog(@"error: %@, dictFromData: %@", error, dictFromData);
+
 }
 
 /**

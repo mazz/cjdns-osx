@@ -11,12 +11,15 @@
 		68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA21A5A2E5E00889FC8 /* Images.xcassets */; };
 		68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */; };
 		68B67AB21A5A2E5E00889FC8 /* cjdns_osxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */; };
+		68B67AC21A5CCD2A00889FC8 /* VOKBenkode.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AC11A5CCD2A00889FC8 /* VOKBenkode.m */; };
+		68B67AC51A6314BC00889FC8 /* CJDLoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AC41A6314BC00889FC8 /* CJDLoginService.m */; };
+		68B67AC71A6B19E900889FC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68B67AC61A6B19E900889FC8 /* Security.framework */; };
+		68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AC91A6B2C0300889FC8 /* NSData+Digest.m */; };
 		AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */; };
 		AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */; };
 		AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */; };
 		AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */; };
 		AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */; };
-		AD7A5B0B1A5B52210083E3E9 /* VOKBenkode.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */; };
 		AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */; };
 		AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */; };
 		AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */; };
@@ -41,6 +44,13 @@
 		68B67AAB1A5A2E5E00889FC8 /* cjdns-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cjdns-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67AB01A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68B67AB11A5A2E5E00889FC8 /* cjdns_osxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cjdns_osxTests.m; sourceTree = "<group>"; };
+		68B67AC01A5CCD2A00889FC8 /* VOKBenkode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VOKBenkode.h; path = ../VOKBenkode.h; sourceTree = "<group>"; };
+		68B67AC11A5CCD2A00889FC8 /* VOKBenkode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VOKBenkode.m; path = ../VOKBenkode.m; sourceTree = "<group>"; };
+		68B67AC31A6314BC00889FC8 /* CJDLoginService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDLoginService.h; path = Classes/CJDLoginService.h; sourceTree = "<group>"; };
+		68B67AC41A6314BC00889FC8 /* CJDLoginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDLoginService.m; path = Classes/CJDLoginService.m; sourceTree = "<group>"; };
+		68B67AC61A6B19E900889FC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		68B67AC81A6B2C0300889FC8 /* NSData+Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Digest.h"; path = "Classes/NSData+Digest.h"; sourceTree = "<group>"; };
+		68B67AC91A6B2C0300889FC8 /* NSData+Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Digest.m"; path = "Classes/NSData+Digest.m"; sourceTree = "<group>"; };
 		AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXStatusItemPopup.h; path = Classes/AXStatusItemPopup.h; sourceTree = "<group>"; };
 		AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXStatusItemPopup.m; path = Classes/AXStatusItemPopup.m; sourceTree = "<group>"; };
 		AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDAppDelegate.h; path = Classes/CJDAppDelegate.h; sourceTree = "<group>"; };
@@ -50,8 +60,6 @@
 		AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDPopupContentViewController.h; path = Classes/CJDPopupContentViewController.h; sourceTree = "<group>"; };
 		AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDPopupContentViewController.m; path = Classes/CJDPopupContentViewController.m; sourceTree = "<group>"; };
 		AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CJDPopupContentViewController.xib; path = Classes/CJDPopupContentViewController.xib; sourceTree = "<group>"; };
-		AD7A5B091A5B52210083E3E9 /* VOKBenkode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VOKBenkode.h; path = Classes/VOKBenkode.h; sourceTree = "<group>"; };
-		AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VOKBenkode.m; path = Classes/VOKBenkode.m; sourceTree = "<group>"; };
 		AD7A5B0C1A5B524C0083E3E9 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Classes/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Classes/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		AD7A5B0F1A5B88FF0083E3E9 /* CJDNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDNetworkManager.h; path = Classes/CJDNetworkManager.h; sourceTree = "<group>"; };
@@ -65,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68B67AC71A6B19E900889FC8 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +90,7 @@
 		68B67A8F1A5A2E5E00889FC8 = {
 			isa = PBXGroup;
 			children = (
+				68B67AC61A6B19E900889FC8 /* Security.framework */,
 				68B67A9A1A5A2E5E00889FC8 /* cjdns-osx */,
 				68B67AAE1A5A2E5E00889FC8 /* cjdns-osxTests */,
 				68B67A991A5A2E5E00889FC8 /* Products */,
@@ -103,14 +113,14 @@
 				AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */,
 				AD7A5B0F1A5B88FF0083E3E9 /* CJDNetworkManager.h */,
 				AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */,
-				AD7A5B091A5B52210083E3E9 /* VOKBenkode.h */,
-				AD7A5B0A1A5B52210083E3E9 /* VOKBenkode.m */,
 				AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */,
 				AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */,
 				AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */,
 				AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */,
 				AD7A5AFC1A5B48E40083E3E9 /* DropDownButton.h */,
 				AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */,
+				68B67AC01A5CCD2A00889FC8 /* VOKBenkode.h */,
+				68B67AC11A5CCD2A00889FC8 /* VOKBenkode.m */,
 				AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */,
 				AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */,
 				AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */,
@@ -119,6 +129,10 @@
 				68B67A9B1A5A2E5E00889FC8 /* Supporting Files */,
 				AD7A5B121A5B8FE70083E3E9 /* NSImage+Utils.h */,
 				AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */,
+				68B67AC31A6314BC00889FC8 /* CJDLoginService.h */,
+				68B67AC41A6314BC00889FC8 /* CJDLoginService.m */,
+				68B67AC81A6B2C0300889FC8 /* NSData+Digest.h */,
+				68B67AC91A6B2C0300889FC8 /* NSData+Digest.m */,
 			);
 			path = "cjdns-osx";
 			sourceTree = "<group>";
@@ -249,12 +263,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68B67AC21A5CCD2A00889FC8 /* VOKBenkode.m in Sources */,
+				68B67AC51A6314BC00889FC8 /* CJDLoginService.m in Sources */,
 				68B67AA11A5A2E5E00889FC8 /* main.m in Sources */,
 				AD7A5B041A5B48E40083E3E9 /* CJDPopupContentViewController.m in Sources */,
 				AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */,
-				AD7A5B0B1A5B52210083E3E9 /* VOKBenkode.m in Sources */,
 				AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */,
 				AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */,
+				68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */,
 				AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */,
 				AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */,
 				AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */,

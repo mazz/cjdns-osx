@@ -17,7 +17,7 @@ CGFloat kMAZAppDelegateMinTextWidth = 36.0;
     NSColor *backgroundColor = (inverted_) ? [NSColor blackColor] : [NSColor whiteColor];
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:text_ attributes:@{NSFontAttributeName: [NSFont systemFontOfSize:18.0],NSForegroundColorAttributeName: textColor, NSBackgroundColorAttributeName: backgroundColor}];
-    NSLog(@"[attrString size]: %@", NSStringFromSize((NSSize)[attrString size]));
+//    NSLog(@"[attrString size]: %@", NSStringFromSize((NSSize)[attrString size]));
     
     CGFloat width = kMAZAppDelegateMinTextWidth;
     if ([attrString size].width >= kMAZAppDelegateMinTextWidth)
@@ -44,7 +44,7 @@ CGFloat kMAZAppDelegateMinTextWidth = 36.0;
     NSData *data = [rep representationUsingType:NSPNGFileType properties: nil];
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%dimage.png", abs(arc4random())]];
     
-    NSLog(@"filePath: %@", filePath);
+//    NSLog(@"filePath: %@", filePath);
     [data writeToFile:filePath atomically:YES];
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filePath]];
     

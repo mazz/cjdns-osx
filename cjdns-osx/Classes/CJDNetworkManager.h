@@ -11,4 +11,6 @@
 @interface CJDNetworkManager : NSObject
 + (CJDNetworkManager *)sharedInstance;
 - (void)sendData:(NSData *)data;
+- (void)fetchCookie:(void(^)(NSString *cookie))completion;
+- (void)ping:(void(^)(NSDictionary *response))completion;
 @end
