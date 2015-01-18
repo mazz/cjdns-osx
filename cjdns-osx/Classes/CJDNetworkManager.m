@@ -11,6 +11,7 @@
 #import "VOKBenkode.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "NSData+Digest.h"
+#import "CJDApiService.h"
 
 typedef void (^CJDCookieCompletionBlock)(NSString *);
 typedef void (^CJDPingCompletionBlock)(NSDictionary *);
@@ -40,6 +41,53 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
     [self send:@{@"q":@"ping"}];
 }
 
+- (void)function:(NSString *)function password:(NSString *)password arguments:(NSDictionary *)arguments
+{
+    [self fetchCookie:^(NSString *cookie)
+    {
+        if (password)
+        {
+            NSData *cookieIn = [cookie dataUsingEncoding:NSUTF8StringEncoding];
+            NSData *passwordIn = [password dataUsingEncoding:NSUTF8StringEncoding];
+//            NSLog(@"cookieIn: %@", cookieIn);
+//            NSLog(@"passwordIn: %@", passwordIn);
+            NSMutableData *passwordCookieIn = [NSMutableData data];
+            [passwordCookieIn appendData:passwordIn];
+            [passwordCookieIn appendData:cookieIn];
+
+            NSMutableData *passwordCookieOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
+            CC_SHA256(passwordCookieIn.bytes, (uint32_t)passwordCookieIn.length,  passwordCookieOut.mutableBytes);
+            
+//            NSLog(@"passwordCookieIn: %@", passwordCookieIn);
+//            NSLog(@"passwordCookieOut digest: %@", [passwordCookieOut hexDigest]);
+            NSDictionary *request = @{@"q": function,
+                                      @"hash": [passwordCookieOut hexDigest],
+                                      @"cookie": cookie,
+                                      @"args": @{}};
+            NSMutableDictionary *mutRequest = [NSMutableDictionary dictionary];
+            
+            // since `password` is not nil, we fix the request to be an auth-based request by adding an `aq` key
+            [mutRequest addEntriesFromDictionary:request];
+            [mutRequest addEntriesFromDictionary:[self defaultParameters]];
+            [mutRequest setObject:[mutRequest objectForKey:@"q"] forKey:@"aq"];
+            [mutRequest setObject:@"auth" forKey:@"q"];
+//            NSLog(@"mutRequest: %@", mutRequest);
+            // now sha256 the entire request
+            
+            NSData *bencodedRequestIn = [VOKBenkode encode:mutRequest];
+            NSMutableData *bencodedRequestOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
+            CC_SHA256(bencodedRequestIn.bytes, (uint32_t)bencodedRequestIn.length,  bencodedRequestOut.mutableBytes);
+//            NSLog(@"bencodedRequestIn: %@", bencodedRequestIn);
+//            NSLog(@"bencodedRequestOut digest: %@", [bencodedRequestOut hexDigest]);
+            [mutRequest setObject:[bencodedRequestOut hexDigest] forKey:@"hash"];
+            
+//            NSLog(@"mutRequest: %@", mutRequest);
+
+            [self send:mutRequest];
+        }
+    }];
+}
+
 - (NSDictionary *)defaultParameters
 {
     return @{@"txid": CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))};
@@ -60,9 +108,8 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
     }
     
 //    NSData *encoded = [VOKBenkode encode:@{@"q":@"ping", @"txid":@"my request"}];
-    NSData *encoded = [VOKBenkode encode:sendDict];
     //{ "q": "ping", "txid": "my request" }
-    NSLog(@"bencoded: %@", [[NSString alloc] initWithData:encoded encoding:NSUTF8StringEncoding]);
+//    NSLog(@"bencoded: %@", [[NSString alloc] initWithData:encoded encoding:NSUTF8StringEncoding]);
     [self sendData:[VOKBenkode encode:sendDict]];
 }
 
