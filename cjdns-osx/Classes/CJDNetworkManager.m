@@ -41,14 +41,14 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
     [self send:@{@"q":@"ping"}];
 }
 
-- (void)function:(NSString *)function password:(NSString *)password arguments:(NSDictionary *)arguments
+- (void)function:(NSString *)function arguments:(NSDictionary *)arguments
 {
     [self fetchCookie:^(NSString *cookie)
     {
-        if (password)
+        if (self.password)
         {
             NSData *cookieIn = [cookie dataUsingEncoding:NSUTF8StringEncoding];
-            NSData *passwordIn = [password dataUsingEncoding:NSUTF8StringEncoding];
+            NSData *passwordIn = [self.password dataUsingEncoding:NSUTF8StringEncoding];
 //            NSLog(@"cookieIn: %@", cookieIn);
 //            NSLog(@"passwordIn: %@", passwordIn);
             NSMutableData *passwordCookieIn = [NSMutableData data];
@@ -140,7 +140,7 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
 - (void)sendData:(NSData *)data
 {
-    [self.udpSocket sendData:data toHost:@"localhost" port:11234 withTimeout:-1 tag:-1];
+    [self.udpSocket sendData:data toHost:self.host port:self.port withTimeout:-1 tag:-1];
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate

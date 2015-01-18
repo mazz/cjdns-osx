@@ -24,7 +24,28 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [[CJDNetworkManager sharedInstance] function:@"ping" password:@"ADMINPASSFOO" arguments:nil];
+    NSString *cjdnsadminPath = [[NSHomeDirectory() stringByExpandingTildeInPath] stringByAppendingPathComponent:@".cjdnsadmin"];
+    NSLog(@"%@", cjdnsadminPath);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cjdnsadminPath isDirectory:NO])
+    {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
+                                                                 options:NSJSONReadingAllowFragments
+                                                                   error:nil];
+        [[CJDNetworkManager sharedInstance] setPassword:dict[@"password"]];
+        [[CJDNetworkManager sharedInstance] setHost:dict[@"addr"]];
+        [[CJDNetworkManager sharedInstance] setPort:[[dict objectForKey:@"port"] integerValue]];
+    }
+    else
+    {
+        NSData *json = [NSJSONSerialization dataWithJSONObject:@{
+                                                                 @"addr": @"127.0.0.1",
+                                                                 @"port": @11234,
+                                                                 @"password": @"You tell me! (Search in ~/cjdroute.conf)"
+                                                                     } options:NSJSONWritingPrettyPrinted error:nil];
+        [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
+    }
+    
+    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
 
 //    encoded = [VOKBenkode encode:@{@"q":@"Admin_availableFunctions",
 //                                   @"args":@{@"page":@0}

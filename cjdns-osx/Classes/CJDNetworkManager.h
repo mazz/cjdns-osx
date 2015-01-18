@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface CJDNetworkManager : NSObject
+@property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *host;
+@property (nonatomic) NSUInteger port;
+
 + (CJDNetworkManager *)sharedInstance;
 - (void)ping:(void(^)(NSDictionary *response))completion;
-- (void)function:(NSString *)function password:(NSString *)password arguments:(NSDictionary *)arguments;
+- (void)function:(NSString *)function arguments:(NSDictionary *)arguments;
 @end
