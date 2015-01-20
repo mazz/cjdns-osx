@@ -17,7 +17,7 @@
 
 - (void)ping:(void(^)(NSDictionary *response))completion
 {
-    [self.session.socketService ping:nil];
+    [self.session.socketService ping:completion];
 }
 
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments

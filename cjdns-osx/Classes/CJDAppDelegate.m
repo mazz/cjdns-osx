@@ -53,30 +53,12 @@
     [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
     [[CJDNetworkManager sharedInstance] function:@"SwitchPinger_ping" arguments:nil];
     [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"ping" arguments:nil];
     [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
     [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
-
+    [[CJDNetworkManager sharedInstance] ping:^(NSDictionary *response) {
+        NSLog(@"pong foo!");
+    }];
+    
     CJDPopupContentViewController *contentViewController = [[CJDPopupContentViewController alloc] initWithNibName:NSStringFromClass([CJDPopupContentViewController class]) bundle:nil];
 
     NSImage *image = [NSImage stringImageWithText:@"cjdns" inverted:YES];
