@@ -45,8 +45,14 @@
         [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
     }
     
-    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
+    
+//    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
 
+    [[CJDNetworkManager sharedInstance] ping:^(NSDictionary *response) {
+        NSLog(@"ping done");
+    }];
 //    encoded = [VOKBenkode encode:@{@"q":@"Admin_availableFunctions",
 //                                   @"args":@{@"page":@0}
 //                                   }];

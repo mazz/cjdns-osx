@@ -11,7 +11,7 @@
 #import "VOKBenkode.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "NSData+Digest.h"
-#import "CJDApiService.h"
+#import "CJDSocketService.h"
 
 typedef void (^CJDCookieCompletionBlock)(NSString *);
 typedef void (^CJDPingCompletionBlock)(NSDictionary *);
@@ -23,6 +23,7 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 }
 @property (strong, nonatomic) GCDAsyncUdpSocket *udpSocket;
 @property (strong, nonatomic) dispatch_queue_t udpQueue;
+@property (strong, nonatomic) CJDSocketService *socketService;
 - (void)fetchCookie:(void(^)(NSString *cookie))completion;
 @end
 
@@ -37,8 +38,9 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
 - (void)ping:(void(^)(NSDictionary *response))completion
 {
-    pingCompletionBlock = completion;
-    [self send:@{@"q":@"ping"}];
+//    pingCompletionBlock = completion;
+//    [self send:@{@"q":@"ping"}];
+    [self.socketService ping:nil];
 }
 
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments
@@ -107,10 +109,7 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
         [sendDict setObject:@"cookie" forKey:@"txid"];
     }
     
-//    NSData *encoded = [VOKBenkode encode:@{@"q":@"ping", @"txid":@"my request"}];
-    //{ "q": "ping", "txid": "my request" }
-//    NSLog(@"bencoded: %@", [[NSString alloc] initWithData:encoded encoding:NSUTF8StringEncoding]);
-    [self sendData:[VOKBenkode encode:sendDict]];
+    [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:-1];
 }
 
 + (CJDNetworkManager *)sharedInstance
@@ -131,16 +130,13 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
         }
         
         [manager->_udpSocket beginReceiving:&error];
+        
+        manager->_socketService = [[CJDSocketService alloc] initWithHost:@"127.0.0.1" port:11234];
         NSLog(@"error: %@", error);
     });
 //    NSData *encoded = [VOKBenkode encode:@{@"one":@1}];
 //    [manager->_udpSocket sendData:encoded toHost:@"192.168.99.99" port:1212 withTimeout:-1 tag:-1];
     return manager;
-}
-
-- (void)sendData:(NSData *)data
-{
-    [self.udpSocket sendData:data toHost:self.host port:self.port withTimeout:-1 tag:-1];
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate
