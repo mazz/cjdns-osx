@@ -31,9 +31,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
                                                                  options:NSJSONReadingAllowFragments
                                                                    error:nil];
-        [[CJDNetworkManager sharedInstance] setPassword:dict[@"password"]];
-        [[CJDNetworkManager sharedInstance] setHost:dict[@"addr"]];
-        [[CJDNetworkManager sharedInstance] setPort:[[dict objectForKey:@"port"] integerValue]];
+        [[CJDNetworkManager sharedInstance] connectToHost:dict[@"addr"] port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
     }
     else
     {
@@ -45,16 +43,22 @@
         [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
     }
     
-    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
 
-//    encoded = [VOKBenkode encode:@{@"q":@"Admin_availableFunctions",
-//                                   @"args":@{@"page":@0}
-//                                   }];
-//    //{ "q": "ping", "txid": "my request" }
-//    //d1:q6:cookiee
-//    NSLog(@"bencoded: %@", [[NSString alloc] initWithData:encoded encoding:NSUTF8StringEncoding]);
-//    [[CJDNetworkManager sharedInstance] sendData:encoded];
-//
+    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"Admin_asyncEnabled" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"Allocator_snapshot" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"SessionManager_sessionStats" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"SwitchPinger_ping" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+    [[CJDNetworkManager sharedInstance] ping:^(NSDictionary *response) {
+        NSLog(@"pong foo!");
+    }];
+    
     CJDPopupContentViewController *contentViewController = [[CJDPopupContentViewController alloc] initWithNibName:NSStringFromClass([CJDPopupContentViewController class]) bundle:nil];
 
     NSImage *image = [NSImage stringImageWithText:@"cjdns" inverted:YES];
