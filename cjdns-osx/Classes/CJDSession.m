@@ -8,6 +8,16 @@
 
 #import "CJDSession.h"
 
-@implementation CJDSession
+@interface CJDSession()
+@end
 
+@implementation CJDSession
+- (instancetype)initWithSocketService:(CJDSocketService *)socketService
+{
+    if ((self = [super init]))
+    {
+        self.socketService = socketService;
+    }
+    return self;
+}
 @end

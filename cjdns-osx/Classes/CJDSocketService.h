@@ -11,7 +11,8 @@
 #import <Foundation/Foundation.h>
 
 @interface CJDSocketService : NSObject
-- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port;
+- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password;
+
 - (void)ping:(void(^)(NSDictionary *response))completion;
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments;
 @end

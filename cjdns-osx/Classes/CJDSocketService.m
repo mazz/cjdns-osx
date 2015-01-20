@@ -11,6 +11,7 @@
 #import "VOKBenkode.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "NSData+Digest.h"
+#import "DKQueue.h"
 
 typedef void (^CJDCookieCompletionBlock)(NSString *);
 typedef void (^CJDPingCompletionBlock)(NSDictionary *);
@@ -22,23 +23,23 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic) NSUInteger port;
+@property (nonatomic, strong) NSOperationQueue *socketQueue;
+@property (nonatomic, strong) DKQueue *cookieBlockQueue;
 @end
 
 @implementation CJDSocketService
 {
-    CJDCookieCompletionBlock cookieCompletionBlock;
     CJDPingCompletionBlock pingCompletionBlock;
 }
 
-- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port
+- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password
 {
     if ((self = [super init]))
     {
         self.host = host;
         self.port = port;
+        self.password = password;
         
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
         _udpQueue = dispatch_queue_create("me.maz.cjdns-osx.dispatch_queue", DISPATCH_QUEUE_SERIAL);
         _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:_udpQueue socketQueue:_udpQueue];
         [_udpSocket setIPv6Enabled:YES];
@@ -52,16 +53,18 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
         [_udpSocket beginReceiving:&error];
         NSLog(@"error: %@", error);
-//        });
-
+        
+        self.socketQueue = [NSOperationQueue new];
+        self.socketQueue.maxConcurrentOperationCount = 1;
+        
+        self.cookieBlockQueue = [DKQueue new];
     }
     return self;
 }
 
 - (void)fetchCookie:(void(^)(NSString *cookie))completion
 {
-    cookieCompletionBlock = completion;
-    //    [self sendData:[]
+    [self.cookieBlockQueue enqueue:completion];
     [self send:@{@"q":@"cookie"}];
 }
 
@@ -79,39 +82,30 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
          {
              NSData *cookieIn = [cookie dataUsingEncoding:NSUTF8StringEncoding];
              NSData *passwordIn = [self.password dataUsingEncoding:NSUTF8StringEncoding];
-             //            NSLog(@"cookieIn: %@", cookieIn);
-             //            NSLog(@"passwordIn: %@", passwordIn);
              NSMutableData *passwordCookieIn = [NSMutableData data];
              [passwordCookieIn appendData:passwordIn];
              [passwordCookieIn appendData:cookieIn];
-             
+
              NSMutableData *passwordCookieOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
              CC_SHA256(passwordCookieIn.bytes, (uint32_t)passwordCookieIn.length,  passwordCookieOut.mutableBytes);
              
-             //            NSLog(@"passwordCookieIn: %@", passwordCookieIn);
-             //            NSLog(@"passwordCookieOut digest: %@", [passwordCookieOut hexDigest]);
              NSDictionary *request = @{@"q": function,
                                        @"hash": [passwordCookieOut hexDigest],
                                        @"cookie": cookie,
                                        @"args": @{}};
              NSMutableDictionary *mutRequest = [NSMutableDictionary dictionary];
-             
+
              // since `password` is not nil, we fix the request to be an auth-based request by adding an `aq` key
              [mutRequest addEntriesFromDictionary:request];
              [mutRequest addEntriesFromDictionary:[self defaultParameters]];
              [mutRequest setObject:[mutRequest objectForKey:@"q"] forKey:@"aq"];
              [mutRequest setObject:@"auth" forKey:@"q"];
-             //            NSLog(@"mutRequest: %@", mutRequest);
+
              // now sha256 the entire request
-             
              NSData *bencodedRequestIn = [VOKBenkode encode:mutRequest];
              NSMutableData *bencodedRequestOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
              CC_SHA256(bencodedRequestIn.bytes, (uint32_t)bencodedRequestIn.length,  bencodedRequestOut.mutableBytes);
-             //            NSLog(@"bencodedRequestIn: %@", bencodedRequestIn);
-             //            NSLog(@"bencodedRequestOut digest: %@", [bencodedRequestOut hexDigest]);
              [mutRequest setObject:[bencodedRequestOut hexDigest] forKey:@"hash"];
-             
-             //            NSLog(@"mutRequest: %@", mutRequest);
              
              [self send:mutRequest];
          }
@@ -125,19 +119,21 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
 - (void)send:(NSDictionary *)dictionary
 {
-    NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
-    
-    [sendDict addEntriesFromDictionary:[self defaultParameters]];
-    [sendDict addEntriesFromDictionary:dictionary];
-    
-    // if we're about to get a cookie, send `cookie` as the txid so we
-    // can identify it when its received over UDP
-    if ([[sendDict allValues] containsObject:@"cookie"])
-    {
-        [sendDict setObject:@"cookie" forKey:@"txid"];
-    }
-    
-    [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:-1];
+    [self.socketQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
+        NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
+        
+        //        [sendDict addEntriesFromDictionary:[self defaultParameters]];
+        [sendDict addEntriesFromDictionary:dictionary];
+        
+        // if we're about to get a cookie, send `cookie` as the txid so we
+        // can identify it when its received over UDP
+        if ([[sendDict allValues] containsObject:@"cookie"])
+        {
+            [sendDict setObject:@"cookie" forKey:@"txid"];
+        }
+        //        NSLog(@"sendDict: %@", sendDict);
+        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:-1];
+    }]];
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate
@@ -196,9 +192,10 @@ withFilterContext:(id)filterContext
     NSLog(@"dataDict: %@", dataDict);
     if ([[dataDict objectForKey:@"txid"] isEqualToString:@"cookie"])
     {
-        if (cookieCompletionBlock != nil)
+        if (!self.cookieBlockQueue.isEmpty)
         {
-            cookieCompletionBlock([dataDict objectForKey:@"cookie"]);
+            void(^CJDCookieCompletionBlock)(NSString *) = [self.cookieBlockQueue dequeue];
+            CJDCookieCompletionBlock([dataDict objectForKey:@"cookie"]);
         }
     }
     if ([[dataDict objectForKey:@"q"] isEqualToString:@"pong"])

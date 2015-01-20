@@ -16,6 +16,7 @@
 		68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AC91A6B2C0300889FC8 /* NSData+Digest.m */; };
 		68B67ACD1A6B6B2500889FC8 /* CJDSocketService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67ACC1A6B6B2500889FC8 /* CJDSocketService.m */; };
 		68B67AD01A6C806100889FC8 /* CJDSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67ACF1A6C806100889FC8 /* CJDSession.m */; };
+		68B67AD31A6DFDD100889FC8 /* DKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AD21A6DFDD100889FC8 /* DKQueue.m */; };
 		AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */; };
 		AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFB1A5B48E40083E3E9 /* CJDAppDelegate.m */; };
 		AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5AFD1A5B48E40083E3E9 /* DropDownButton.m */; };
@@ -54,9 +55,11 @@
 		68B67AC81A6B2C0300889FC8 /* NSData+Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Digest.h"; path = "Classes/NSData+Digest.h"; sourceTree = "<group>"; };
 		68B67AC91A6B2C0300889FC8 /* NSData+Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Digest.m"; path = "Classes/NSData+Digest.m"; sourceTree = "<group>"; };
 		68B67ACB1A6B6B2500889FC8 /* CJDSocketService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDSocketService.h; path = Classes/CJDSocketService.h; sourceTree = "<group>"; };
-		68B67ACC1A6B6B2500889FC8 /* CJDSocketService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDSocketService.m; path = Classes/CJDSocketService.m; sourceTree = "<group>"; };
+		68B67ACC1A6B6B2500889FC8 /* CJDSocketService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDSocketService.m; path = "cjdns-osx/Classes/CJDSocketService.m"; sourceTree = SOURCE_ROOT; };
 		68B67ACE1A6C806100889FC8 /* CJDSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDSession.h; path = Classes/CJDSession.h; sourceTree = "<group>"; };
 		68B67ACF1A6C806100889FC8 /* CJDSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDSession.m; path = Classes/CJDSession.m; sourceTree = "<group>"; };
+		68B67AD11A6DFDD000889FC8 /* DKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKQueue.h; path = Classes/DKQueue.h; sourceTree = "<group>"; };
+		68B67AD21A6DFDD100889FC8 /* DKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DKQueue.m; path = Classes/DKQueue.m; sourceTree = "<group>"; };
 		AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXStatusItemPopup.h; path = Classes/AXStatusItemPopup.h; sourceTree = "<group>"; };
 		AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXStatusItemPopup.m; path = Classes/AXStatusItemPopup.m; sourceTree = "<group>"; };
 		AD7A5AFA1A5B48E40083E3E9 /* CJDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDAppDelegate.h; path = Classes/CJDAppDelegate.h; sourceTree = "<group>"; };
@@ -127,6 +130,8 @@
 				AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */,
 				68B67ACB1A6B6B2500889FC8 /* CJDSocketService.h */,
 				68B67ACC1A6B6B2500889FC8 /* CJDSocketService.m */,
+				68B67AD11A6DFDD000889FC8 /* DKQueue.h */,
+				68B67AD21A6DFDD100889FC8 /* DKQueue.m */,
 				68B67ACE1A6C806100889FC8 /* CJDSession.h */,
 				68B67ACF1A6C806100889FC8 /* CJDSession.m */,
 				AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */,
@@ -337,6 +342,7 @@
 				68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */,
 				68B67AD01A6C806100889FC8 /* CJDSession.m in Sources */,
 				AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */,
+				68B67AD31A6DFDD100889FC8 /* DKQueue.m in Sources */,
 				AD7A5B021A5B48E40083E3E9 /* CJDAppDelegate.m in Sources */,
 				AD7A5B011A5B48E40083E3E9 /* AXStatusItemPopup.m in Sources */,
 			);

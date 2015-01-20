@@ -9,7 +9,9 @@
 // manages the keepalive
 
 #import <Foundation/Foundation.h>
+#import "CJDSocketService.h"
 
 @interface CJDSession : NSObject
-
+@property (nonatomic, strong) CJDSocketService *socketService;
+- (instancetype)initWithSocketService:(CJDSocketService *)socketService;
 @end
