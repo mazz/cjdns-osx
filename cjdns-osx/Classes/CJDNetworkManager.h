@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "CJDSession.h"
 
-@interface CJDNetworkManager : NSObject <CJDSessionDelegate>
+@interface CJDNetworkManager : NSObject
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic) NSUInteger port;
 
 + (CJDNetworkManager *)sharedInstance;
 //- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password error:(NSError **)error;
+- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password success:(void(^)())success failure:(void(^)(NSError *error))failure;
 - (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password;
 
 #warning TEMPORARY short-circuited API

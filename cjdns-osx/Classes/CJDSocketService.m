@@ -64,7 +64,7 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
         
         self.cookieBlockQueue = [DKQueue new];
         
-        [self sendConnectPing];
+//        [self sendConnectPing];
     }
     return self;
 }
@@ -181,6 +181,13 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
 {
     NSLog(@"didSendDataWithTag: %ld", tag);
+    if (tag == CJDSocketServiceSendTagConnectPing)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidSucceed)])
+        {
+            [self.delegate connectionPingDidSucceed];
+        }
+    }
 }
 
 /**
@@ -192,9 +199,9 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
     NSLog(@"didNotSendDataWithTag: %ld %@", tag, [error description]);
     if (tag == CJDSocketServiceSendTagConnectPing)
     {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingFailedWithError:)])
+        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidFailWithError:)])
         {
-            [self.delegate connectionPingFailedWithError:error];
+            [self.delegate connectionPingDidFailWithError:error];
         }
     }
 }

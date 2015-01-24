@@ -24,6 +24,7 @@
 		AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B0D1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m */; };
 		AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */; };
 		AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */; };
+		ADF52AF21A743EE7003297C9 /* CJDSession+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF52AF11A743EE7003297C9 /* CJDSession+Private.m */; };
 		CFE920290685EC1B85729A8D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F19CA29568E9F9FFE5C256E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,8 @@
 		AD7A5B101A5B88FF0083E3E9 /* CJDNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDNetworkManager.m; path = Classes/CJDNetworkManager.m; sourceTree = "<group>"; };
 		AD7A5B121A5B8FE70083E3E9 /* NSImage+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+Utils.h"; path = "Classes/NSImage+Utils.h"; sourceTree = "<group>"; };
 		AD7A5B131A5B8FE70083E3E9 /* NSImage+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+Utils.m"; path = "Classes/NSImage+Utils.m"; sourceTree = "<group>"; };
+		ADF52AF01A743EE7003297C9 /* CJDSession+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CJDSession+Private.h"; path = "Classes/CJDSession+Private.h"; sourceTree = "<group>"; };
+		ADF52AF11A743EE7003297C9 /* CJDSession+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CJDSession+Private.m"; path = "Classes/CJDSession+Private.m"; sourceTree = "<group>"; };
 		CD3F2B5D5EBEB71DEEC3CF86 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +134,8 @@
 				68B67AD21A6DFDD100889FC8 /* DKQueue.m */,
 				68B67ACE1A6C806100889FC8 /* CJDSession.h */,
 				68B67ACF1A6C806100889FC8 /* CJDSession.m */,
+				ADF52AF01A743EE7003297C9 /* CJDSession+Private.h */,
+				ADF52AF11A743EE7003297C9 /* CJDSession+Private.m */,
 				AD7A5AF81A5B48E40083E3E9 /* AXStatusItemPopup.h */,
 				AD7A5AF91A5B48E40083E3E9 /* AXStatusItemPopup.m */,
 				AD7A5AFC1A5B48E40083E3E9 /* DropDownButton.h */,
@@ -332,6 +337,7 @@
 				AD7A5B031A5B48E40083E3E9 /* DropDownButton.m in Sources */,
 				AD7A5B141A5B8FE70083E3E9 /* NSImage+Utils.m in Sources */,
 				68B67ACD1A6B6B2500889FC8 /* CJDSocketService.m in Sources */,
+				ADF52AF21A743EE7003297C9 /* CJDSession+Private.m in Sources */,
 				AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */,
 				68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */,
 				68B67AD01A6C806100889FC8 /* CJDSession.m in Sources */,

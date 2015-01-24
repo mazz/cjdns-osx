@@ -12,7 +12,8 @@
 
 @protocol CJDSocketServiceDelegate <NSObject>
 @required
-- (void)connectionPingFailedWithError:(NSError *)error;
+- (void)connectionPingDidSucceed;
+- (void)connectionPingDidFailWithError:(NSError *)error;
 @end
 
 @interface CJDSocketService : NSObject
@@ -20,6 +21,7 @@
 //- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password error:(NSError **)error;
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate;
 
+- (void)sendConnectPing;
 - (void)ping:(void(^)(NSDictionary *response))completion;
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments;
 @end

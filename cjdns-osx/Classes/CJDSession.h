@@ -11,13 +11,9 @@
 #import <Foundation/Foundation.h>
 #import "CJDSocketService.h"
 
-@protocol CJDSessionDelegate <NSObject>
-@required
-- (void)connectionFailedWithError:(NSError *)error;
-@end
-
 @interface CJDSession : NSObject <CJDSocketServiceDelegate>
+
 @property (nonatomic, strong) CJDSocketService *socketService;
-@property (nonatomic, strong) id <CJDSessionDelegate> delegate;
-- (instancetype)initWithSocketService:(CJDSocketService *)socketService delegate:(id<CJDSessionDelegate>)delegate;
+#warning TODO delegate not required/not by design, so remove
+- (instancetype)initWithSocketService:(CJDSocketService *)socketService;
 @end

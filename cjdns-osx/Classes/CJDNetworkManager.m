@@ -8,6 +8,7 @@
 
 #import "CJDNetworkManager.h"
 #import "CJDSocketService.h"
+#import "CJDSession+Private.h"
 
 @interface CJDNetworkManager()
 @property (strong, nonatomic) CJDSession *session;
@@ -25,7 +26,6 @@
     [self.session.socketService function:function arguments:arguments];
 }
 
-
 + (CJDNetworkManager *)sharedInstance
 {
     static CJDNetworkManager *manager = nil;
@@ -41,15 +41,19 @@
 {
     CJDSocketService *ss = [[CJDSocketService alloc] initWithHost:host port:port password:password delegate:nil];
 
-    self.session = [[CJDSession alloc] initWithSocketService:ss delegate:self];
+    self.session = [[CJDSession alloc] initWithSocketService:ss];
     [ss setDelegate:self.session];
     return self.session;
 }
 
-#pragma mark CJDSessionDelegate
-- (void)connectionFailedWithError:(NSError *)error
+- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password success:(void(^)())success failure:(void(^)(NSError *error))failure
 {
-    NSLog(@"connectionFailedWithError: %@", error);
+    CJDSocketService *ss = [[CJDSocketService alloc] initWithHost:host port:port password:password delegate:nil];
+
+    self.session = [[CJDSession alloc] initWithSocketService:ss];
+    [self.session sendConnectPingWithSuccess:success failure:failure];
+    [ss setDelegate:self.session];
+    return self.session;
 }
 
 @end

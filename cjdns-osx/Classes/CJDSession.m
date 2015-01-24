@@ -7,28 +7,45 @@
 //
 
 #import "CJDSession.h"
+#import "CJDSession+Private.h"
+
+typedef void(^CJDSessionSuccessCallback)();
+typedef void(^CJDSessionFailureCallback)(NSError *error);
 
 @interface CJDSession()
 @end
 
 @implementation CJDSession
-- (instancetype)initWithSocketService:(CJDSocketService *)socketService delegate:(id<CJDSessionDelegate>)delegate
+{
+    CJDSessionSuccessCallback _success;
+    CJDSessionFailureCallback _failure;
+}
+
+- (instancetype)initWithSocketService:(CJDSocketService *)socketService
 {
     if ((self = [super init]))
     {
         self.socketService = socketService;
-        self.delegate = delegate;
     }
+    
     return self;
 }
 
-#pragma mark CJDSocketServiceDelegate
-- (void)connectionPingFailedWithError:(NSError *)error
+- (void)sendConnectPingWithSuccess:(void(^)())success failure:(void(^)(NSError *error))failure
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(connectionFailedWithError:)])
-    {
-        [self.delegate connectionFailedWithError:error];
-    }
+    _success = success;
+    _failure = failure;
+    [self.socketService sendConnectPing];
 }
 
+#pragma mark CJDSocketServiceDelegate
+- (void)connectionPingDidFailWithError:(NSError *)error
+{
+    _failure(error);
+}
+
+- (void)connectionPingDidSucceed
+{
+    _success();
+}
 @end

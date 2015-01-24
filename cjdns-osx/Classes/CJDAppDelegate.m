@@ -35,7 +35,14 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
                                                                  options:NSJSONReadingAllowFragments
                                                                    error:nil];
-        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353"/*dict[@"addr"]*/ port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
+//        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353"/*dict[@"addr"]*/ port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
+        
+        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
+            NSLog(@"callback and success");
+        } failure:^(NSError *error) {
+            NSLog(@"callback and failure: %@", error);
+        }];
+
     }
     else
     {
@@ -47,21 +54,20 @@
         [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
     }
     
-
-    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"Admin_asyncEnabled" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"Allocator_snapshot" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"SessionManager_sessionStats" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"SwitchPinger_ping" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
-    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
-    [[CJDNetworkManager sharedInstance] ping:^(NSDictionary *response) {
-        NSLog(@"pong foo!");
-    }];
+//    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"Admin_asyncEnabled" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"Allocator_snapshot" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"SessionManager_sessionStats" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"SwitchPinger_ping" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] function:@"IpTunnel_listConnections" arguments:nil];
+//    [[CJDNetworkManager sharedInstance] ping:^(NSDictionary *response) {
+//        NSLog(@"pong foo!");
+//    }];
     
     CJDPopupContentViewController *contentViewController = [[CJDPopupContentViewController alloc] initWithNibName:NSStringFromClass([CJDPopupContentViewController class]) bundle:nil];
 
