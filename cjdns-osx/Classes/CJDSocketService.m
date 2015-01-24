@@ -35,7 +35,6 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 {
     CJDPingCompletionBlock pingCompletionBlock;
 }
-//- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password error:(NSError **)error
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate
 {
     if ((self = [super init]))

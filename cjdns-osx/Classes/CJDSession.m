@@ -13,6 +13,7 @@ typedef void(^CJDSessionSuccessCallback)();
 typedef void(^CJDSessionFailureCallback)(NSError *error);
 
 @interface CJDSession()
+@property (nonatomic, strong) CJDSocketService *socketService;
 @end
 
 @implementation CJDSession

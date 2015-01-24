@@ -15,9 +15,7 @@
 @property (nonatomic) NSUInteger port;
 
 + (CJDNetworkManager *)sharedInstance;
-//- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password error:(NSError **)error;
 - (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password success:(void(^)())success failure:(void(^)(NSError *error))failure;
-- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password;
 
 #warning TEMPORARY short-circuited API
 - (void)ping:(void(^)(NSDictionary *response))completion;

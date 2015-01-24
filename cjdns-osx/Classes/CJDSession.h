@@ -13,7 +13,7 @@
 
 @interface CJDSession : NSObject <CJDSocketServiceDelegate>
 
-@property (nonatomic, strong) CJDSocketService *socketService;
+@property (nonatomic, strong, readonly) CJDSocketService *socketService;
 #warning TODO delegate not required/not by design, so remove
 - (instancetype)initWithSocketService:(CJDSocketService *)socketService;
 @end

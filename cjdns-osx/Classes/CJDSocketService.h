@@ -18,7 +18,6 @@
 
 @interface CJDSocketService : NSObject
 @property (nonatomic, strong) id <CJDSocketServiceDelegate> delegate;
-//- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password error:(NSError **)error;
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate;
 
 - (void)sendConnectPing;
