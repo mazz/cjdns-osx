@@ -11,10 +11,12 @@
 #import "CJDPopupContentViewController.h"
 #import "CJDNetworkManager.h"
 #import "NSImage+Utils.h"
+#import "CJDSession.h"
 
 @interface CJDAppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
+@property (strong, nonatomic) CJDSession *session;
 @end
 
 @implementation CJDAppDelegate
@@ -26,12 +28,14 @@
 {
     NSString *cjdnsadminPath = [[NSHomeDirectory() stringByExpandingTildeInPath] stringByAppendingPathComponent:@".cjdnsadmin"];
     NSLog(@"%@", cjdnsadminPath);
+//    NSError *err = nil;
+
     if ([[NSFileManager defaultManager] fileExistsAtPath:cjdnsadminPath isDirectory:NO])
     {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
                                                                  options:NSJSONReadingAllowFragments
                                                                    error:nil];
-        [[CJDNetworkManager sharedInstance] connectToHost:dict[@"addr"] port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
+        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353"/*dict[@"addr"]*/ port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
     }
     else
     {

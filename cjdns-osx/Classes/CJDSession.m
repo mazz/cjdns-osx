@@ -12,12 +12,23 @@
 @end
 
 @implementation CJDSession
-- (instancetype)initWithSocketService:(CJDSocketService *)socketService
+- (instancetype)initWithSocketService:(CJDSocketService *)socketService delegate:(id<CJDSessionDelegate>)delegate
 {
     if ((self = [super init]))
     {
         self.socketService = socketService;
+        self.delegate = delegate;
     }
     return self;
 }
+
+#pragma mark CJDSocketServiceDelegate
+- (void)connectionPingFailedWithError:(NSError *)error
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(connectionFailedWithError:)])
+    {
+        [self.delegate connectionFailedWithError:error];
+    }
+}
+
 @end

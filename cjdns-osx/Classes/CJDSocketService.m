@@ -13,6 +13,10 @@
 #import "NSData+Digest.h"
 #import "DKQueue.h"
 
+typedef NS_ENUM(NSInteger, CJDSocketServiceSendTag) {
+    CJDSocketServiceSendTagConnectPing = -9999
+};
+
 typedef void (^CJDCookieCompletionBlock)(NSString *);
 typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 
@@ -31,33 +35,36 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 {
     CJDPingCompletionBlock pingCompletionBlock;
 }
-
-- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password
+//- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password error:(NSError **)error
+- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate
 {
     if ((self = [super init]))
     {
         self.host = host;
         self.port = port;
         self.password = password;
-        
+        self.delegate = delegate;
         _udpQueue = dispatch_queue_create("me.maz.cjdns-osx.dispatch_queue", DISPATCH_QUEUE_SERIAL);
         _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:_udpQueue socketQueue:_udpQueue];
         [_udpSocket setIPv6Enabled:YES];
 
-        NSError *error = nil;
-        if (![_udpSocket bindToPort:0 error:&error])
+        NSError *err = nil;
+        if (![_udpSocket bindToPort:0 error:&err])
         {
-            NSLog(@"Error binding: %@", error);
+            NSLog(@"Error binding: %@", err);
             return nil;
         }
 
-        [_udpSocket beginReceiving:&error];
-        NSLog(@"error: %@", error);
+        [_udpSocket beginReceiving:&err];
+        NSLog(@"error: %@", err);
+//        *error = err;
         
         self.socketQueue = [NSOperationQueue new];
         self.socketQueue.maxConcurrentOperationCount = 1;
         
         self.cookieBlockQueue = [DKQueue new];
+        
+        [self sendConnectPing];
     }
     return self;
 }
@@ -115,6 +122,11 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 - (NSDictionary *)defaultParameters
 {
     return @{@"txid": CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))};
+}
+
+- (void)sendConnectPing
+{
+    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:-1 tag:CJDSocketServiceSendTagConnectPing];
 }
 
 - (void)send:(NSDictionary *)dictionary
@@ -178,6 +190,13 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
 {
     NSLog(@"didNotSendDataWithTag: %ld %@", tag, [error description]);
+    if (tag == CJDSocketServiceSendTagConnectPing)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingFailedWithError:)])
+        {
+            [self.delegate connectionPingFailedWithError:error];
+        }
+    }
 }
 
 /**

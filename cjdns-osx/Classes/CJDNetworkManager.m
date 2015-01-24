@@ -36,10 +36,20 @@
     return manager;
 }
 
+//- (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password error:(NSError **)error
 - (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password
 {
-    self.session = [[CJDSession alloc] initWithSocketService:[[CJDSocketService alloc] initWithHost:host port:port password:password]];
+    CJDSocketService *ss = [[CJDSocketService alloc] initWithHost:host port:port password:password delegate:nil];
+
+    self.session = [[CJDSession alloc] initWithSocketService:ss delegate:self];
+    [ss setDelegate:self.session];
     return self.session;
+}
+
+#pragma mark CJDSessionDelegate
+- (void)connectionFailedWithError:(NSError *)error
+{
+    NSLog(@"connectionFailedWithError: %@", error);
 }
 
 @end
