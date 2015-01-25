@@ -14,11 +14,11 @@
 #import "DKQueue.h"
 
 typedef NS_ENUM(NSInteger, CJDSocketServiceSendTag) {
-    CJDSocketServiceSendTagConnectPing = -9999
+    CJDSocketServiceSendTagConnectPing = -9900,
+    CJDSocketServiceSendTagKeepAlive = -9800
 };
 
 typedef void (^CJDCookieCompletionBlock)(NSString *);
-typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 @interface CJDSocketService()
@@ -34,7 +34,6 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 @implementation CJDSocketService
 {
-    CJDPingCompletionBlock pingCompletionBlock;
     CJDSocketServiceCompletionBlock _adminFunctionsCompletionBlock;
     long _page;
 }
@@ -76,10 +75,10 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 - (void)fetchCookie:(void(^)(NSString *cookie))completion
 {
     [self.cookieBlockQueue enqueue:completion];
-    [self send:@{@"q":@"cookie"}];
+    [self send:@{@"q":@"cookie"} tag:-1];
 }
 
-- (void)function:(NSString *)function arguments:(NSDictionary *)arguments
+- (void)function:(NSString *)function arguments:(NSDictionary *)arguments tag:(long)tag
 {
     [self fetchCookie:^(NSString *cookie)
      {
@@ -102,30 +101,26 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
              // since `password` is not nil, we fix the request to be an auth-based request by adding an `aq` key
              [mutRequest addEntriesFromDictionary:request];
-             [mutRequest addEntriesFromDictionary:[self defaultParameters]];
              [mutRequest setObject:[mutRequest objectForKey:@"q"] forKey:@"aq"];
              [mutRequest setObject:@"auth" forKey:@"q"];
 
+             [mutRequest setObject:([function isEqualToString:@"cookie"] ? @"cookie" : [function isEqualToString:@"Admin_asyncEnabled"] ? @"keepalive" :  CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))) forKey:@"txid"];
+             
              // now sha256 the entire request
              NSData *bencodedRequestIn = [VOKBenkode encode:mutRequest];
              NSMutableData *bencodedRequestOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
              CC_SHA256(bencodedRequestIn.bytes, (uint32_t)bencodedRequestIn.length,  bencodedRequestOut.mutableBytes);
              [mutRequest setObject:[bencodedRequestOut hexDigest] forKey:@"hash"];
              
-             [self send:mutRequest];
+             [self send:mutRequest tag:tag];
          }
      }];
-}
-
-- (NSDictionary *)defaultParameters
-{
-    return @{@"txid": CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))};
 }
 
 - (void)fetchAdminFunctions:(void(^)(NSDictionary *response))completion
 {
     _adminFunctionsCompletionBlock = completion;
-    [self function:@"Admin_availableFunctions" arguments:@{@"page": @1}];
+    [self function:@"Admin_availableFunctions" arguments:@{@"page": @1} tag:-1];
 }
 
 - (void)sendConnectPing
@@ -133,7 +128,12 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
     [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:-1 tag:CJDSocketServiceSendTagConnectPing];
 }
 
-- (void)send:(NSDictionary *)dictionary
+- (void)keepAlive
+{
+    [self function:@"Admin_asyncEnabled" arguments:@{} tag:CJDSocketServiceSendTagKeepAlive];
+}
+
+- (void)send:(NSDictionary *)dictionary tag:(long)tag
 {
     [self.socketQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
         NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
@@ -147,8 +147,9 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         {
             [sendDict setObject:@"cookie" forKey:@"txid"];
         }
+        
         //        NSLog(@"sendDict: %@", sendDict);
-        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:-1];
+        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:tag];
     }]];
 }
 
@@ -192,7 +193,13 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
             [self.delegate connectionPingDidSucceed];
         }
     }
-}
+    else if (tag == CJDSocketServiceSendTagKeepAlive)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidSucceed)])
+        {
+            [self.delegate keepAliveDidSucceed];
+        }
+    }}
 
 /**
  * Called if an error occurs while trying to send a datagram.
@@ -208,6 +215,13 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
             [self.delegate connectionPingDidFailWithError:error];
         }
     }
+    else if (tag == CJDSocketServiceSendTagKeepAlive)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidFailWithError:)])
+        {
+            [self.delegate keepAliveDidFailWithError:error];
+        }
+    }
 }
 
 /**
@@ -217,7 +231,6 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
       fromAddress:(NSData *)address
 withFilterContext:(id)filterContext
 {
-    //    NSLog(@"didReceiveData: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     NSDictionary *dataDict = [VOKBenkode decode:data options:0 error:nil];
     NSLog(@"dataDict: %@", dataDict);
     if ([[dataDict objectForKey:@"txid"] isEqualToString:@"cookie"])
@@ -228,19 +241,11 @@ withFilterContext:(id)filterContext
             CJDCookieCompletionBlock([dataDict objectForKey:@"cookie"]);
         }
     }
-    if ([[dataDict objectForKey:@"q"] isEqualToString:@"pong"])
-    {
-        if (pingCompletionBlock != nil)
-        {
-            pingCompletionBlock(dataDict);
-        }
-    }
     if ([dataDict objectForKey:@"availableFunctions"] && [dataDict objectForKey:@"more"])
     {
-//        _adminFunctionsCompletionBlock(dataDict);
         [self.pagedResponseCache addObject:[dataDict objectForKey:@"availableFunctions"]];
         _page++;
-        [self function:@"Admin_availableFunctions" arguments:@{@"page": [NSNumber numberWithLong:_page]}];
+        [self function:@"Admin_availableFunctions" arguments:@{@"page": [NSNumber numberWithLong:_page]} tag:-1];
     }
     else if ([dataDict objectForKey:@"availableFunctions"] && ![dataDict objectForKey:@"more"])
     {

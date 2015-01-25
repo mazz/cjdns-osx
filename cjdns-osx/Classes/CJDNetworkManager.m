@@ -18,7 +18,7 @@
 
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments
 {
-    [self.session.socketService function:function arguments:arguments];
+    [self.session.socketService function:function arguments:arguments tag:-1];
 }
 
 + (CJDNetworkManager *)sharedInstance
@@ -36,7 +36,7 @@
     CJDSocketService *ss = [[CJDSocketService alloc] initWithHost:host port:port password:password delegate:nil];
 
     self.session = [[CJDSession alloc] initWithSocketService:ss];
-    [self.session sendConnectPingWithSuccess:success failure:failure];
+    [self.session sendConnectionPing:success failure:failure];
     [ss setDelegate:self.session];
     return self.session;
 }

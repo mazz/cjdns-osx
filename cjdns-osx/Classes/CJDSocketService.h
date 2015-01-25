@@ -14,6 +14,8 @@
 @required
 - (void)connectionPingDidSucceed;
 - (void)connectionPingDidFailWithError:(NSError *)error;
+- (void)keepAliveDidSucceed;
+- (void)keepAliveDidFailWithError:(NSError *)error;
 @end
 
 @interface CJDSocketService : NSObject
@@ -21,5 +23,6 @@
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate;
 - (void)fetchAdminFunctions:(void(^)(NSDictionary *response))completion;
 - (void)sendConnectPing;
-- (void)function:(NSString *)function arguments:(NSDictionary *)arguments;
+- (void)keepAlive;
+- (void)function:(NSString *)function arguments:(NSDictionary *)arguments tag:(long)tag;
 @end

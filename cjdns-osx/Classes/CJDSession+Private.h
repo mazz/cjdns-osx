@@ -10,5 +10,6 @@
 
 extern NSString *const CJDSessionAdminFunctionsDidGetFetchedNotification;
 @interface CJDSession (Private)
-- (void)sendConnectPingWithSuccess:(void(^)())success failure:(void(^)(NSError *error))failure;
+- (void)sendConnectionPing:(void(^)())success failure:(void(^)(NSError *error))failure;
+- (void)disconnect;
 @end
