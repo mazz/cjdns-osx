@@ -35,9 +35,14 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
                                                                  options:NSJSONReadingAllowFragments
                                                                    error:nil];
-//        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353"/*dict[@"addr"]*/ port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"]];
         
-        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
+//        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
+//            NSLog(@"callback and success");
+//        } failure:^(NSError *error) {
+//            NSLog(@"callback and failure: %@", error);
+//        }];
+
+        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"127.0.0.1" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
             NSLog(@"callback and success");
         } failure:^(NSError *error) {
             NSLog(@"callback and failure: %@", error);
@@ -54,7 +59,7 @@
         [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
     }
     
-//    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:nil];
+    [[CJDNetworkManager sharedInstance] function:@"InterfaceController_peerStats" arguments:@{}];
 //    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];
 //    [[CJDNetworkManager sharedInstance] function:@"Admin_asyncEnabled" arguments:nil];
 //    [[CJDNetworkManager sharedInstance] function:@"Allocator_bytesAllocated" arguments:nil];

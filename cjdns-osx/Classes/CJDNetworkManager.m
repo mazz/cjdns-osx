@@ -16,11 +16,6 @@
 
 @implementation CJDNetworkManager
 
-- (void)ping:(void(^)(NSDictionary *response))completion
-{
-    [self.session.socketService ping:completion];
-}
-
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments
 {
     [self.session.socketService function:function arguments:arguments];

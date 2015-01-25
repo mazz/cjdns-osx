@@ -9,6 +9,8 @@
 #import "CJDSession.h"
 #import "CJDSession+Private.h"
 
+NSString *const CJDSessionAdminFunctionsDidGetFetchedNotification = @"CJDSessionAdminFunctionsDidGetFetchedNotification";
+
 typedef void(^CJDSessionSuccessCallback)();
 typedef void(^CJDSessionFailureCallback)(NSError *error);
 
@@ -27,6 +29,7 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
     if ((self = [super init]))
     {
         self.socketService = socketService;
+        self.adminFunctions = [NSDictionary dictionary];
     }
     
     return self;
@@ -48,5 +51,11 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 - (void)connectionPingDidSucceed
 {
     _success();
+    
+    [self.socketService fetchAdminFunctions:^(NSDictionary *response)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CJDSessionAdminFunctionsDidGetFetchedNotification object:nil userInfo:@{@"adminFunctions": response}];
+        self.adminFunctions = response;
+    }];
 }
 @end

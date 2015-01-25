@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, CJDSocketServiceSendTag) {
 
 typedef void (^CJDCookieCompletionBlock)(NSString *);
 typedef void (^CJDPingCompletionBlock)(NSDictionary *);
-
+typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 @interface CJDSocketService()
 @property (strong, nonatomic) GCDAsyncUdpSocket *udpSocket;
@@ -29,11 +29,14 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 @property (nonatomic) NSUInteger port;
 @property (nonatomic, strong) NSOperationQueue *socketQueue;
 @property (nonatomic, strong) DKQueue *cookieBlockQueue;
+@property (nonatomic, strong) NSMutableArray *pagedResponseCache;
 @end
 
 @implementation CJDSocketService
 {
     CJDPingCompletionBlock pingCompletionBlock;
+    CJDSocketServiceCompletionBlock _adminFunctionsCompletionBlock;
+    long _page;
 }
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port password:(NSString *)password delegate:(id<CJDSocketServiceDelegate>)delegate
 {
@@ -63,6 +66,8 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
         
         self.cookieBlockQueue = [DKQueue new];
         
+        _page = 0;
+        self.pagedResponseCache = [NSMutableArray array];
 //        [self sendConnectPing];
     }
     return self;
@@ -72,12 +77,6 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 {
     [self.cookieBlockQueue enqueue:completion];
     [self send:@{@"q":@"cookie"}];
-}
-
-- (void)ping:(void(^)(NSDictionary *response))completion
-{
-    pingCompletionBlock = completion;
-    [self send:@{@"q":@"ping"}];
 }
 
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments
@@ -98,7 +97,7 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
              NSDictionary *request = @{@"q": function,
                                        @"hash": [passwordCookieOut hexDigest],
                                        @"cookie": cookie,
-                                       @"args": @{}};
+                                       @"args": arguments};
              NSMutableDictionary *mutRequest = [NSMutableDictionary dictionary];
 
              // since `password` is not nil, we fix the request to be an auth-based request by adding an `aq` key
@@ -121,6 +120,12 @@ typedef void (^CJDPingCompletionBlock)(NSDictionary *);
 - (NSDictionary *)defaultParameters
 {
     return @{@"txid": CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(NULL)))};
+}
+
+- (void)fetchAdminFunctions:(void(^)(NSDictionary *response))completion
+{
+    _adminFunctionsCompletionBlock = completion;
+    [self function:@"Admin_availableFunctions" arguments:@{@"page": @1}];
 }
 
 - (void)sendConnectPing
@@ -229,6 +234,25 @@ withFilterContext:(id)filterContext
         {
             pingCompletionBlock(dataDict);
         }
+    }
+    if ([dataDict objectForKey:@"availableFunctions"] && [dataDict objectForKey:@"more"])
+    {
+//        _adminFunctionsCompletionBlock(dataDict);
+        [self.pagedResponseCache addObject:[dataDict objectForKey:@"availableFunctions"]];
+        _page++;
+        [self function:@"Admin_availableFunctions" arguments:@{@"page": [NSNumber numberWithLong:_page]}];
+    }
+    else if ([dataDict objectForKey:@"availableFunctions"] && ![dataDict objectForKey:@"more"])
+    {
+        // no more admin functions
+        NSMutableDictionary *adminFunctions = [NSMutableDictionary dictionary];
+        for (NSDictionary *page in self.pagedResponseCache)
+        {
+            [adminFunctions addEntriesFromDictionary:page];
+        }
+        _adminFunctionsCompletionBlock(adminFunctions);
+        _page = 0;
+        self.pagedResponseCache = [NSMutableArray array];
     }
 }
 

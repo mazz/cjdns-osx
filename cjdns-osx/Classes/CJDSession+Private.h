@@ -8,6 +8,7 @@
 
 #import "CJDSession.h"
 
+extern NSString *const CJDSessionAdminFunctionsDidGetFetchedNotification;
 @interface CJDSession (Private)
 - (void)sendConnectPingWithSuccess:(void(^)())success failure:(void(^)(NSError *error))failure;
 @end

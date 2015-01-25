@@ -18,7 +18,6 @@
 - (CJDSession *)connectToHost:(NSString *)host port:(NSUInteger)port password:(NSString *)password success:(void(^)())success failure:(void(^)(NSError *error))failure;
 
 #warning TEMPORARY short-circuited API
-- (void)ping:(void(^)(NSDictionary *response))completion;
 - (void)function:(NSString *)function arguments:(NSDictionary *)arguments;
 
 @end
