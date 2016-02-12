@@ -27,9 +27,10 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic) NSUInteger port;
-@property (nonatomic, strong) NSOperationQueue *socketQueue;
+@property (nonatomic, strong) NSOperationQueue *sendQueue;
 @property (nonatomic, strong) DKQueue *cookieBlockQueue;
 @property (nonatomic, strong) NSMutableArray *pagedResponseCache;
+@property (nonatomic, strong) NSDictionary *messages;
 @end
 
 @implementation CJDSocketService
@@ -60,13 +61,15 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         NSLog(@"error: %@", err);
 //        *error = err;
         
-        self.socketQueue = [NSOperationQueue new];
-        self.socketQueue.maxConcurrentOperationCount = 1;
+        self.sendQueue = [NSOperationQueue new];
+        self.sendQueue.maxConcurrentOperationCount = 1;
         
         self.cookieBlockQueue = [DKQueue new];
         
         _page = 0;
         self.pagedResponseCache = [NSMutableArray array];
+        self.messages = [NSDictionary dictionary];
+        
 //        [self sendConnectPing];
     }
     return self;
@@ -125,7 +128,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)sendConnectPing
 {
-    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:-1 tag:CJDSocketServiceSendTagConnectPing];
+    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:30 tag:CJDSocketServiceSendTagConnectPing];
 }
 
 - (void)keepAlive
@@ -135,7 +138,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)send:(NSDictionary *)dictionary tag:(long)tag
 {
-    [self.socketQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
+    [self.sendQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
         NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
         
         //        [sendDict addEntriesFromDictionary:[self defaultParameters]];
@@ -149,7 +152,13 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         }
         
         //        NSLog(@"sendDict: %@", sendDict);
-        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:-1 tag:tag];
+        NSMutableDictionary *messages = [self.messages mutableCopy];
+        NSMutableDictionary *messageDict = [sendDict mutableCopy];
+        
+        [messageDict setObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]] forKey:@"timestamp"];
+        [messages setObject:messageDict forKey:[sendDict objectForKey:@"txid"]];
+        self.messages = [messages copy];
+        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:30 tag:tag];
     }]];
 }
 
@@ -199,7 +208,11 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         {
             [self.delegate keepAliveDidSucceed];
         }
-    }}
+    }
+//    else if (tag == -1) {
+//        NSLog(@"possible disconnect");
+//    }
+}
 
 /**
  * Called if an error occurs while trying to send a datagram.
@@ -233,6 +246,7 @@ withFilterContext:(id)filterContext
 {
     NSDictionary *dataDict = [VOKBenkode decode:data options:0 error:nil];
     NSLog(@"dataDict: %@", dataDict);
+    NSLog(@"self.messages: %@", self.messages);
     if ([[dataDict objectForKey:@"txid"] isEqualToString:@"cookie"])
     {
         if (!self.cookieBlockQueue.isEmpty)
