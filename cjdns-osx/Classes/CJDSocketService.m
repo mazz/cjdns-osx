@@ -13,6 +13,8 @@
 #import "NSData+Digest.h"
 #import "DKQueue.h"
 
+long const kCJDSocketServiceConnectPingTimeout = 5;
+
 typedef NS_ENUM(NSInteger, CJDSocketServiceSendTag) {
     CJDSocketServiceSendTagConnectPing = -9900,
     CJDSocketServiceSendTagKeepAlive = -9800
@@ -32,7 +34,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 @property (nonatomic, strong) NSMutableArray *pagedResponseCache;
 @property (nonatomic, strong) NSDictionary *messages;
 @property (nonatomic, strong) NSNumber *latestServerTimestamp;
-
+@property (assign) BOOL connectPingSucceeded;
 @end
 
 @implementation CJDSocketService
@@ -48,6 +50,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         self.port = port;
         self.password = password;
         self.delegate = delegate;
+        self.connectPingSucceeded = NO;
         _udpQueue = dispatch_queue_create("me.maz.cjdns-osx.dispatch_queue", DISPATCH_QUEUE_SERIAL);
         _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:_udpQueue socketQueue:_udpQueue];
         [_udpSocket setIPv6Enabled:YES];
@@ -130,7 +133,19 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)sendConnectPing
 {
-    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:5 tag:CJDSocketServiceSendTagConnectPing];
+    [NSTimer scheduledTimerWithTimeInterval:kCJDSocketServiceConnectPingTimeout target:self selector:@selector(connectPingStatusCheck) userInfo:nil repeats:NO];
+    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:kCJDSocketServiceConnectPingTimeout tag:CJDSocketServiceSendTagConnectPing];
+}
+
+- (void)connectPingStatusCheck
+{
+    if (!self.connectPingSucceeded)
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidFailWithError:)])
+        {
+            [self.delegate connectionPingDidFailWithError:[NSError errorWithDomain:@"Initial Ping Failed" code:-1 userInfo:nil]];
+        }
+    }
 }
 
 - (void)keepAlive
@@ -211,9 +226,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 /**
  * Called when the socket has received the requested datagram.
  **/
-- (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
-      fromAddress:(NSData *)address
-withFilterContext:(id)filterContext
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
     NSDictionary *dataDict = [VOKBenkode decode:data options:0 error:nil];
     NSLog(@"dataDict: %@", dataDict);

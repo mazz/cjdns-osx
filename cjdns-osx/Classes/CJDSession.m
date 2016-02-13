@@ -10,7 +10,6 @@
 #import "CJDSession+Private.h"
 
 NSString *const CJDSessionAdminFunctionsDidGetFetchedNotification = @"CJDSessionAdminFunctionsDidGetFetchedNotification";
-
 typedef void(^CJDSessionSuccessCallback)();
 typedef void(^CJDSessionFailureCallback)(NSError *error);
 
@@ -42,6 +41,7 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 {
     _success = success;
     _failure = failure;
+    
     [self.socketService sendConnectPing];
 }
 
