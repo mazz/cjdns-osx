@@ -14,6 +14,7 @@
 #import "DKQueue.h"
 
 long const kCJDSocketServiceConnectPingTimeout = 5;
+long const kCJDSocketServiceKeepAliveTimeout = 30;
 
 typedef NS_ENUM(NSInteger, CJDSocketServiceSendTag) {
     CJDSocketServiceSendTagConnectPing = -9900,
@@ -33,8 +34,8 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 @property (nonatomic, strong) DKQueue *cookieBlockQueue;
 @property (nonatomic, strong) NSMutableArray *pagedResponseCache;
 @property (nonatomic, strong) NSDictionary *messages;
-@property (nonatomic, strong) NSNumber *latestServerTimestamp;
-@property (assign) BOOL connectPingSucceeded;
+@property (nonatomic, strong) NSNumber *keepAliveTimestamp;
+@property (nonatomic, strong) NSTimer *connectPingTimer;
 @end
 
 @implementation CJDSocketService
@@ -50,7 +51,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         self.port = port;
         self.password = password;
         self.delegate = delegate;
-        self.connectPingSucceeded = NO;
+        self.connectPingTimer = nil;
         _udpQueue = dispatch_queue_create("me.maz.cjdns-osx.dispatch_queue", DISPATCH_QUEUE_SERIAL);
         _udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:_udpQueue socketQueue:_udpQueue];
         [_udpSocket setIPv6Enabled:YES];
@@ -75,7 +76,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         self.pagedResponseCache = [NSMutableArray array];
         self.messages = [NSDictionary dictionary];
         
-//        [self sendConnectPing];
+        self.keepAliveTimestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
     }
     return self;
 }
@@ -133,13 +134,15 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)sendConnectPing
 {
-    [NSTimer scheduledTimerWithTimeInterval:kCJDSocketServiceConnectPingTimeout target:self selector:@selector(connectPingStatusCheck) userInfo:nil repeats:NO];
+    [self.connectPingTimer invalidate];
+    self.connectPingTimer = nil;
+    self.connectPingTimer = [NSTimer scheduledTimerWithTimeInterval:kCJDSocketServiceConnectPingTimeout target:self selector:@selector(connectPingStatusCheck) userInfo:nil repeats:NO];
     [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:kCJDSocketServiceConnectPingTimeout tag:CJDSocketServiceSendTagConnectPing];
 }
 
 - (void)connectPingStatusCheck
 {
-    if (!self.connectPingSucceeded)
+    if (self.connectPingTimer != nil)
     {
         if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidFailWithError:)])
         {
@@ -155,28 +158,36 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)send:(NSDictionary *)dictionary tag:(long)tag
 {
-    [self.sendQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
-        NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
-        
-        //        [sendDict addEntriesFromDictionary:[self defaultParameters]];
-        [sendDict addEntriesFromDictionary:dictionary];
-        
-        // if we're about to get a cookie, send `cookie` as the txid so we
-        // can identify it when its received over UDP
-        if ([[sendDict allValues] containsObject:@"cookie"])
+    // on every send: we will check keepalive first
+    if ([[NSDate date] timeIntervalSince1970] - [self.keepAliveTimestamp doubleValue] > (double)kCJDSocketServiceKeepAliveTimeout) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidFailWithError:)])
         {
-            [sendDict setObject:@"cookie" forKey:@"txid"];
+            [self.delegate keepAliveDidFailWithError:[NSError errorWithDomain:@"Server keepalive timeout" code:-1 userInfo:nil]];
         }
-        
-        //        NSLog(@"sendDict: %@", sendDict);
-        NSMutableDictionary *messages = [self.messages mutableCopy];
-        NSMutableDictionary *messageDict = [sendDict mutableCopy];
-        
-        [messageDict setObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]] forKey:@"timestamp"];
-        [messages setObject:messageDict forKey:[sendDict objectForKey:@"txid"]];
-        self.messages = [messages copy];
-        [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:30 tag:tag];
-    }]];
+    } else {
+        [self.sendQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
+            NSMutableDictionary *sendDict = [NSMutableDictionary dictionary];
+            
+            //        [sendDict addEntriesFromDictionary:[self defaultParameters]];
+            [sendDict addEntriesFromDictionary:dictionary];
+            
+            // if we're about to get a cookie, send `cookie` as the txid so we
+            // can identify it when its received over UDP
+            if ([[sendDict allValues] containsObject:@"cookie"])
+            {
+                [sendDict setObject:@"cookie" forKey:@"txid"];
+            }
+            
+            //        NSLog(@"sendDict: %@", sendDict);
+            NSMutableDictionary *messages = [self.messages mutableCopy];
+            NSMutableDictionary *messageDict = [sendDict mutableCopy];
+            
+            [messageDict setObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]] forKey:@"timestamp"];
+            [messages setObject:messageDict forKey:[sendDict objectForKey:@"txid"]];
+            self.messages = [messages copy];
+            [self.udpSocket sendData:[VOKBenkode encode:sendDict] toHost:self.host port:self.port withTimeout:30 tag:tag];
+        }]];
+    }
 }
 
 #pragma mark - GCDAsyncUdpSocketDelegate
@@ -233,6 +244,8 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 //    NSLog(@"self.messages: %@", self.messages);
     if ([[dataDict objectForKey:@"q"] isEqualToString:@"pong"])
     {
+        [self.connectPingTimer invalidate];
+        self.connectPingTimer = nil;
         if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidSucceed)])
         {
             [self.delegate connectionPingDidSucceed];
@@ -251,6 +264,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
         if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidSucceed)])
         {
             [self.delegate keepAliveDidSucceed];
+            self.keepAliveTimestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
         }
     }
     if ([dataDict objectForKey:@"availableFunctions"] && [dataDict objectForKey:@"more"])

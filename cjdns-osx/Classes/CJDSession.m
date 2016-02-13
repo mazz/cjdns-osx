@@ -89,6 +89,7 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 - (void)keepAliveDidFailWithError:(NSError *)error
 {
     NSLog(@"keepAliveDidFailWithError:");
+    [self disconnect];
 }
 
 @end
