@@ -31,6 +31,8 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 @property (nonatomic, strong) DKQueue *cookieBlockQueue;
 @property (nonatomic, strong) NSMutableArray *pagedResponseCache;
 @property (nonatomic, strong) NSDictionary *messages;
+@property (nonatomic, strong) NSNumber *latestServerTimestamp;
+
 @end
 
 @implementation CJDSocketService
@@ -128,7 +130,7 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 
 - (void)sendConnectPing
 {
-    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:30 tag:CJDSocketServiceSendTagConnectPing];
+    [self.udpSocket sendData:[VOKBenkode encode:@{@"q":@"ping"}] toHost:self.host port:self.port withTimeout:5 tag:CJDSocketServiceSendTagConnectPing];
 }
 
 - (void)keepAlive
@@ -195,23 +197,6 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
 {
     NSLog(@"didSendDataWithTag: %ld", tag);
-    if (tag == CJDSocketServiceSendTagConnectPing)
-    {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidSucceed)])
-        {
-            [self.delegate connectionPingDidSucceed];
-        }
-    }
-    else if (tag == CJDSocketServiceSendTagKeepAlive)
-    {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidSucceed)])
-        {
-            [self.delegate keepAliveDidSucceed];
-        }
-    }
-//    else if (tag == -1) {
-//        NSLog(@"possible disconnect");
-//    }
 }
 
 /**
@@ -221,20 +206,6 @@ typedef void(^CJDSocketServiceCompletionBlock)(NSDictionary *completion);
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didNotSendDataWithTag:(long)tag dueToError:(NSError *)error
 {
     NSLog(@"didNotSendDataWithTag: %ld %@", tag, [error description]);
-    if (tag == CJDSocketServiceSendTagConnectPing)
-    {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidFailWithError:)])
-        {
-            [self.delegate connectionPingDidFailWithError:error];
-        }
-    }
-    else if (tag == CJDSocketServiceSendTagKeepAlive)
-    {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidFailWithError:)])
-        {
-            [self.delegate keepAliveDidFailWithError:error];
-        }
-    }
 }
 
 /**
@@ -246,13 +217,27 @@ withFilterContext:(id)filterContext
 {
     NSDictionary *dataDict = [VOKBenkode decode:data options:0 error:nil];
     NSLog(@"dataDict: %@", dataDict);
-    NSLog(@"self.messages: %@", self.messages);
+//    NSLog(@"self.messages: %@", self.messages);
+    if ([[dataDict objectForKey:@"q"] isEqualToString:@"pong"])
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(connectionPingDidSucceed)])
+        {
+            [self.delegate connectionPingDidSucceed];
+        }
+    }
     if ([[dataDict objectForKey:@"txid"] isEqualToString:@"cookie"])
     {
         if (!self.cookieBlockQueue.isEmpty)
         {
             void(^CJDCookieCompletionBlock)(NSString *) = [self.cookieBlockQueue dequeue];
             CJDCookieCompletionBlock([dataDict objectForKey:@"cookie"]);
+        }
+    }
+    if ([[dataDict objectForKey:@"txid"] isEqualToString:@"keepalive"])
+    {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(keepAliveDidSucceed)])
+        {
+            [self.delegate keepAliveDidSucceed];
         }
     }
     if ([dataDict objectForKey:@"availableFunctions"] && [dataDict objectForKey:@"more"])

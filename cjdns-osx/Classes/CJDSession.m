@@ -63,6 +63,7 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 
 - (void)connectionPingDidSucceed
 {
+    NSLog(@"connectionPingDidSucceed");
     _success();
  
     self.connected = YES;

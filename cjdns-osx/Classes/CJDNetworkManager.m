@@ -36,6 +36,9 @@
     CJDSocketService *ss = [[CJDSocketService alloc] initWithHost:host port:port password:password delegate:nil];
 
     self.session = [[CJDSession alloc] initWithSocketService:ss];
+    
+    // if the initial connection ping returns a successful response(pong) then the session will
+    // get and store admin functions AND initiate a keep-alive
     [self.session sendConnectionPing:success failure:failure];
     [ss setDelegate:self.session];
     return self.session;
