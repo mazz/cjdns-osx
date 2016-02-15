@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2AF94B531C718C1E00BE2AD1 /* CJDRouteAdminServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */; };
+		2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */ = {isa = PBXBuildFile; fileRef = 2AF94B5A1C7233D500BE2AD1 /* cjdroute */; };
 		68B67AA11A5A2E5E00889FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AA01A5A2E5E00889FC8 /* main.m */; };
 		68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA21A5A2E5E00889FC8 /* Images.xcassets */; };
 		68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */; };
@@ -45,6 +46,7 @@
 		2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDRouteAdminServer.m; path = Classes/CJDRouteAdminServer.m; sourceTree = "<group>"; };
 		2AF94B551C718DCD00BE2AD1 /* CJDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJDConstants.h; sourceTree = "<group>"; };
 		2AF94B591C71B07300BE2AD1 /* cjdns-osx-prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cjdns-osx-prefix.pch"; sourceTree = SOURCE_ROOT; };
+		2AF94B5A1C7233D500BE2AD1 /* cjdroute */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = cjdroute; sourceTree = "<group>"; };
 		68B67A981A5A2E5E00889FC8 /* cjdns-osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cjdns-osx.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B67A9C1A5A2E5E00889FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68B67AA01A5A2E5E00889FC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		68B67A9B1A5A2E5E00889FC8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2AF94B5A1C7233D500BE2AD1 /* cjdroute */,
 				68B67A9C1A5A2E5E00889FC8 /* Info.plist */,
 				2AF94B591C71B07300BE2AD1 /* cjdns-osx-prefix.pch */,
 				68B67AA01A5A2E5E00889FC8 /* main.m */,
@@ -286,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */,
 				AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */,
 				68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */,
 				68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */,
@@ -434,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -470,7 +474,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

@@ -12,4 +12,5 @@ gem 'semver'
 gem 'rake'
 gem 'rest-client'
 gem 'nokogiri'
+gem 'xcodeproject', '~> 0.3.13'
 

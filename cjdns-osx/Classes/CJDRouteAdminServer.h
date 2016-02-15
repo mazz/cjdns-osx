@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 @interface CJDRouteAdminServer : NSObject
-- (instancetype)initWithExecutablesDirectory:(NSString *)executablesDirectory;
-+ (NSString*)standardBinaryDirectory;
+@property unsigned long port;
+@property (readonly) NSString *binPath;
+
+- (instancetype)initWithExecutablesDirectory:(NSString *)executablesDirectory configurationDirectory:(NSString *)configurationDirectory;
++ (NSString *)binaryDirectory;
++ (NSString *)resourceDirectory;
 
 @end
 NS_ASSUME_NONNULL_END

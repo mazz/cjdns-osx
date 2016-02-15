@@ -16,12 +16,13 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 @interface CJDSession()
 @property (nonatomic, strong) CJDSocketService *socketService;
 @property (nonatomic, assign) BOOL connected;
+@property (weak, nonatomic) CJDSessionCreateCompletionHandler completionHandler;
 @end
 
 @implementation CJDSession
 {
-    CJDSessionSuccessCallback _success;
-    CJDSessionFailureCallback _failure;
+//    CJDSessionSuccessCallback _success;
+//    CJDSessionFailureCallback _failure;
     dispatch_source_t _keepAliveSource;
 }
 
@@ -37,10 +38,16 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
     return self;
 }
 
+- (void)sendConnectionPingWithCompletionHandler:(CJDSessionCreateCompletionHandler)completionHandler {
+    self.completionHandler = completionHandler;
+    
+    [self.socketService sendConnectPing];
+}
+
 - (void)sendConnectionPing:(void(^)())success failure:(void(^)(NSError *error))failure
 {
-    _success = success;
-    _failure = failure;
+//    _success = success;
+//    _failure = failure;
     
     [self.socketService sendConnectPing];
 }
@@ -58,14 +65,21 @@ typedef void(^CJDSessionFailureCallback)(NSError *error);
 #pragma mark CJDSocketServiceDelegate
 - (void)connectionPingDidFailWithError:(NSError *)error
 {
-    _failure(error);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionHandler(NO, error);
+    });
+
 }
 
 - (void)connectionPingDidSucceed
 {
     NSLog(@"connectionPingDidSucceed");
-    _success();
- 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionHandler(YES, nil);
+    });
+
+//    _success();
+    
     self.connected = YES;
     [self.socketService fetchAdminFunctions:^(NSDictionary *response)
     {
