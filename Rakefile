@@ -5,13 +5,11 @@ require 'json'
 require 'plist'
 require 'optparse'
 require 'socket'
-require 'artifactory'
 require 'archive/zip'
 require 'mixlib/shellout'
 require 'semver'
 require 'git'
 require 'rest-client'
-require 'nokogiri'
 
 @logger                 = Logger.new(STDOUT)
 @logger.datetime_format = "%F %T"

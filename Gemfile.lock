@@ -42,8 +42,6 @@ GEM
     domain_name (0.5.20160128)
       unf (>= 0.0.5, < 1.0.0)
     escape (0.0.4)
-    fileutils (0.7)
-      rmagick (>= 2.13.1)
     fuzzy_match (2.0.4)
     git (1.2.9.1)
     http-cookie (1.0.2)
@@ -53,18 +51,20 @@ GEM
     json (1.8.3)
     logger (1.2.8)
     mime-types (2.99)
+    mini_portile2 (2.0.0)
     minitest (5.8.4)
     mixlib-shellout (2.2.6)
     molinillo (0.4.2)
     nap (1.1.0)
     netrc (0.7.8)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     plist (3.2.0)
     rake (10.5.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rmagick (2.15.4)
     semver (1.0.1)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
@@ -76,7 +76,6 @@ GEM
       activesupport (>= 3)
       claide (~> 0.9.1)
       colored (~> 1.2)
-    xcpretty (0.1.12)
 
 PLATFORMS
   ruby
@@ -84,16 +83,15 @@ PLATFORMS
 DEPENDENCIES
   archive-zip
   cocoapods
-  fileutils
   git
   json
   logger
   mixlib-shellout
+  nokogiri
   plist
   rake
   rest-client
   semver
-  xcpretty
 
 BUNDLED WITH
    1.11.2
