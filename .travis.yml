@@ -3,6 +3,7 @@ os:
 osx_image: xcode7.2
 language: objective-c
 before_install:
+- gem install bundler
 - brew update
 - brew outdated xctool || brew upgrade xctool
 - brew install xctool
