@@ -28,21 +28,21 @@
     
     NSString *cjdnsadminPath = [[NSHomeDirectory() stringByExpandingTildeInPath] stringByAppendingPathComponent:@".cjdnsadmin"];
     NSLog(@"%@", cjdnsadminPath);
-    //    NSError *err = nil;
+        NSError *err = nil;
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:cjdnsadminPath isDirectory:NO])
     {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[[NSData alloc] initWithContentsOfFile:cjdnsadminPath]
                                                              options:NSJSONReadingAllowFragments
                                                                error:nil];
-        
+    
         //        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"109.425.524.353" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
         //            NSLog(@"callback and success");
         //        } failure:^(NSError *error) {
         //            NSLog(@"callback and failure: %@", error);
         //        }];
         
-        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"127.0.0.1" port:[[dict objectForKey:@"port"] integerValue] password:dict[@"password"] success:^{
+        self.session = [[CJDNetworkManager sharedInstance] connectToHost:@"127.0.0.1" port:kCJDRoutAdminDefaultPort password:dict[@"password"] success:^{
             NSLog(@"callback and success");
         } failure:^(NSError *error) {
             NSLog(@"callback and failure: %@", error);
@@ -53,8 +53,8 @@
     {
         NSData *json = [NSJSONSerialization dataWithJSONObject:@{
                                                                  @"addr": @"127.0.0.1",
-                                                                 @"port": @11234,
-                                                                 @"password": @"You tell me! (Search in ~/cjdroute.conf)"
+                                                                 @"port": @(kCJDRoutAdminDefaultPort),
+                                                                 @"password": @"NONE"
                                                                  } options:NSJSONWritingPrettyPrinted error:nil];
         [[NSFileManager defaultManager] createFileAtPath:cjdnsadminPath contents:json attributes:nil];
     }

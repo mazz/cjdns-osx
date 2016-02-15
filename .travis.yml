@@ -1,2 +1,12 @@
- language: objective-c
+os:
+- osx
+osx_image: xcode7.2
+language: objective-c
+before_install:
+- gem install bundler
+- brew update
+- brew outdated xctool || brew upgrade xctool
+- brew install xctool
+script:
+- xctool -workspace cjdns-osx.xcworkspace -scheme cjdns-osx -sdk macosx ONLY_ACTIVE_ARCH=NO
 

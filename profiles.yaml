@@ -1,0 +1,20 @@
+default: &common
+  identity: "Michael Hanna"
+  project_display_name: "cjdns-osx"
+  project_bundleid: me.maz.cjdns-osx
+  xcode_target: cjdns-osx
+  xcode_scheme: cjdns-osx
+  xcode_project: cjdns-osx
+  xcode_project_file: cjdns-osx.xcodeproj
+  xcode_workspace: cjdns-osx.xcworkspace
+
+release:
+  <<: *common
+  xcode_build_configuration: Release
+
+development:
+  <<: *common
+  project_display_name: "cjdns-osx (Development)"
+  project_bundleid: me.maz.cjdnsdevelopment
+  xcode_build_configuration: Debug
+
