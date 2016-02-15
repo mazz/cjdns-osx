@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2ACD90021C727F1900009B3A /* cjdroute-pristine.conf in Resources */ = {isa = PBXBuildFile; fileRef = 2ACD90011C727F1900009B3A /* cjdroute-pristine.conf */; };
 		2AF94B531C718C1E00BE2AD1 /* CJDRouteAdminServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */; };
 		2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */ = {isa = PBXBuildFile; fileRef = 2AF94B5A1C7233D500BE2AD1 /* cjdroute */; };
 		68B67AA11A5A2E5E00889FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AA01A5A2E5E00889FC8 /* main.m */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		1A80D84A9940F8971D889441 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1F19CA29568E9F9FFE5C256E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ACD90011C727F1900009B3A /* cjdroute-pristine.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cjdroute-pristine.conf"; sourceTree = "<group>"; };
 		2AF94B511C718C1E00BE2AD1 /* CJDRouteAdminServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDRouteAdminServer.h; path = Classes/CJDRouteAdminServer.h; sourceTree = "<group>"; };
 		2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDRouteAdminServer.m; path = Classes/CJDRouteAdminServer.m; sourceTree = "<group>"; };
 		2AF94B551C718DCD00BE2AD1 /* CJDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJDConstants.h; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				2AF94B5A1C7233D500BE2AD1 /* cjdroute */,
+				2ACD90011C727F1900009B3A /* cjdroute-pristine.conf */,
 				68B67A9C1A5A2E5E00889FC8 /* Info.plist */,
 				2AF94B591C71B07300BE2AD1 /* cjdns-osx-prefix.pch */,
 				68B67AA01A5A2E5E00889FC8 /* main.m */,
@@ -292,6 +295,7 @@
 				2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */,
 				AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */,
 				68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */,
+				2ACD90021C727F1900009B3A /* cjdroute-pristine.conf in Resources */,
 				68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
