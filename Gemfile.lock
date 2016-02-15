@@ -9,7 +9,6 @@ GEM
       tzinfo (~> 1.1)
     archive-zip (0.8.0)
       io-like (~> 0.3.0)
-    artifactory (2.3.2)
     claide (0.9.1)
     cocoapods (0.39.0)
       activesupport (>= 4.0.2)
@@ -54,14 +53,11 @@ GEM
     json (1.8.3)
     logger (1.2.8)
     mime-types (2.99)
-    mini_portile2 (2.0.0)
     minitest (5.8.4)
     mixlib-shellout (2.2.6)
     molinillo (0.4.2)
     nap (1.1.0)
     netrc (0.7.8)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
     plist (3.2.0)
     rake (10.5.0)
     rest-client (1.8.0)
@@ -87,14 +83,12 @@ PLATFORMS
 
 DEPENDENCIES
   archive-zip
-  artifactory
   cocoapods
   fileutils
   git
   json
   logger
   mixlib-shellout
-  nokogiri
   plist
   rake
   rest-client
