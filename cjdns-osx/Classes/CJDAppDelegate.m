@@ -28,7 +28,7 @@
 {
     NSLog(@"[[NSBundle mainBundle] resourcePath]: %@", [[NSBundle mainBundle] resourcePath]);
 
-    self.server = [CJDRouteAdminServer defaultServer];//[[CJDRouteAdminServer alloc] initWithExecutablesDirectory:[CJDRouteAdminServer binaryDirectory] configurationDirectory:[CJDRouteAdminServer resourceDirectory]];
+    self.server = [CJDRouteAdminServer defaultServer];
     [self.server startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
             NSLog(@"self.server start success");

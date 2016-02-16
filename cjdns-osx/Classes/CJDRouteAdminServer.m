@@ -58,77 +58,20 @@ static CJDRouteAdminServer* _sharedServer = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *error = nil;
         BOOL serverDidStart = [self startServerWithError:&error];
-        if (!serverDidStart) {
-            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(NO, error); });
+        if (serverDidStart) {
+            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(YES, error); });
             return;
         }
-        
-//        PostgresDataDirectoryStatus dataDirStatus = [PostgresServer statusOfDataDirectory:_varPath error:&error];
-//        
-//        if (dataDirStatus==PostgresDataDirectoryEmpty) {
-//            BOOL serverDidInit = [self initDatabaseWithError:&error];
-//            if (!serverDidInit) {
-//                if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(NO, error); });
-//                return;
-//            }
-//            
-//            BOOL serverDidStart = [self startServerWithError:&error];
-//            if (!serverDidStart) {
-//                if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(NO, error); });
-//                return;
-//            }
-//            
-//            BOOL createdUser = [self createUserWithError:&error];
-//            if (!createdUser) {
-//                if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(NO, error); });
-//                return;
-//            }
-//            
-//            BOOL createdUserDatabase = [self createUserDatabaseWithError:&error];
-//            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(createdUserDatabase, error); });
-//        }
-//        else if (dataDirStatus==PostgresDataDirectoryCompatible) {
-//            BOOL serverDidStart = [self startServerWithError:&error];
-//            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(serverDidStart, error); });
-//        }
-//        else {
-//            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(NO, error); });
-//        }
-        
     });
 }
 
 -(BOOL)startServerWithError:(NSError**)error {
     NSTask *controlTask = [[NSTask alloc] init];
     controlTask.launchPath = [self.binPath stringByAppendingPathComponent:@"cjdroute"];
-//    controlTask.arguments = @[
-//                              @"<",
-//                              self.confPath
-//                              ];
-    
     controlTask.standardInput = [NSFileHandle fileHandleForReadingAtPath:self.confPath];
-//                              /* control command          */ @"start",
-//                                                             /* data directory           */ @"-D", self.varPath,
-//                                                             /* wait for server to start */ @"-w",
-//                                                             /* server log file          */ @"-l", self.logfilePath,
-//                                                             /* allow overriding port    */ @"-o", [NSString stringWithFormat:@"-p %lu", self.port]
-//                                                             ];
     controlTask.standardError = [[NSPipe alloc] init];
     [controlTask launch];
-    NSString *controlTaskError = [[NSString alloc] initWithData:[[controlTask.standardError fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding];
     [controlTask waitUntilExit];
-    
-    if (controlTask.terminationStatus != 0 && error) {
-        NSMutableDictionary *errorUserInfo = [[NSMutableDictionary alloc] init];
-        errorUserInfo[NSLocalizedDescriptionKey] = NSLocalizedString(@"Could not start cjdroute admin server.",nil);
-        errorUserInfo[NSLocalizedRecoverySuggestionErrorKey] = controlTaskError;
-//        errorUserInfo[NSLocalizedRecoveryOptionsErrorKey] = @[@"OK", @"Open Server Log"];
-//        errorUserInfo[NSRecoveryAttempterErrorKey] = [[RecoveryAttempter alloc] init];
-//        errorUserInfo[@"ServerLogRecoveryOptionIndex"] = @1;
-//        errorUserInfo[@"ServerLogPath"] = self.logfilePath;
-        *error = [NSError errorWithDomain:@"me.maz.cjdns-osx.cjdroute" code:controlTask.terminationStatus userInfo:errorUserInfo];
-    }
-    
     if (controlTask.terminationStatus == 0) {
         self.isRunning = YES;
     }
