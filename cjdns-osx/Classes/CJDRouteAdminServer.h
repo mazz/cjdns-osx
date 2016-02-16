@@ -15,12 +15,14 @@ typedef void (^CJDRouteAdminServerControlCompletionHandler)(BOOL success, NSErro
 @property unsigned long port;
 @property (readonly) NSString *binPath;
 @property (readonly) NSString *confPath;
+@property (readonly) BOOL isRunning;
 
 + (CJDRouteAdminServer*)defaultServer;
 - (instancetype)initWithExecutablesDirectory:(NSString *)executablesDirectory configurationDirectory:(NSString *)configurationDirectory;
 + (NSString *)binaryDirectory;
 + (NSString *)resourceDirectory;
 - (void)startWithCompletionHandler:(CJDRouteAdminServerControlCompletionHandler)completionBlock;
+- (void)stopWithCompletionHandler:(CJDRouteAdminServerControlCompletionHandler)completionBlock;
 
 @end
 NS_ASSUME_NONNULL_END

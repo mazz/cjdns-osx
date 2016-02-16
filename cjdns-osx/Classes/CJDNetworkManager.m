@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     else {
         NSData* json = [NSJSONSerialization dataWithJSONObject:@{
             @"addr" : @"127.0.0.1",
-            @"port" : @(kCJDRoutAdminDefaultPort),
+            @"port" : @(kCJDRouteAdminDefaultPort),
             @"password" : @"NONE"
         }
                                                        options:NSJSONWritingPrettyPrinted
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (dict != nil) {
-        CJDSocketService* ss = [[CJDSocketService alloc] initWithHost:@"127.0.0.1" port:kCJDRoutAdminDefaultPort password:dict[@"password"] delegate:nil];
+        CJDSocketService* ss = [[CJDSocketService alloc] initWithHost:@"127.0.0.1" port:kCJDRouteAdminDefaultPort password:dict[@"password"] delegate:nil];
 
         self.session = [[CJDSession alloc] initWithSocketService:ss];
 
