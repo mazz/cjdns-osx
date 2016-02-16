@@ -28,15 +28,23 @@
 {
     NSLog(@"[[NSBundle mainBundle] resourcePath]: %@", [[NSBundle mainBundle] resourcePath]);
 
-    self.server = [[CJDRouteAdminServer alloc] initWithExecutablesDirectory:[CJDRouteAdminServer binaryDirectory] configurationDirectory:[CJDRouteAdminServer resourceDirectory]];
-    
-    self.session = [[CJDNetworkManager sharedInstance] connectWithAdminDirectory:[NSHomeDirectory() stringByExpandingTildeInPath] completionHandler:^(BOOL success, NSError * _Nullable error) {
+    self.server = [CJDRouteAdminServer defaultServer];
+    [self.server startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
-            NSLog(@"session creation success");
+            NSLog(@"self.server start success");
+            self.session = [[CJDNetworkManager sharedInstance] connectWithAdminDirectory:[NSHomeDirectory() stringByExpandingTildeInPath] completionHandler:^(BOOL success, NSError * _Nullable error) {
+                if (success) {
+                    NSLog(@"session creation success");
+                } else {
+                    NSLog(@"session creation failure: %@", error);
+                }
+            }];
+
         } else {
-            NSLog(@"session creation failure: %@", error);
+            NSLog(@"self.server start fail: %@", error);
         }
     }];
+    
 
     CJDPopupContentViewController* contentViewController = [[CJDPopupContentViewController alloc] initWithNibName:NSStringFromClass([CJDPopupContentViewController class]) bundle:nil];
 
