@@ -58,10 +58,10 @@ static CJDRouteAdminServer* _sharedServer = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *error = nil;
         BOOL serverDidStart = [self startServerWithError:&error];
-        if (serverDidStart) {
-            if (completionBlock) dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(YES, error); });
-            return;
+        if (completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{ completionBlock(serverDidStart, error); });
         }
+        return;
     });
 }
 
