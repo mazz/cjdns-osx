@@ -81,6 +81,9 @@ static CJDRouteAdminServer* _sharedServer = nil;
     if (controlTask.terminationStatus == 0) {
         self.isRunning = YES;
     }
+    else if (controlTask.terminationStatus == kCJDRouteAdminAuthenticationFailedError) {
+        *error = [NSError errorWithDomain:@"Authentication failed." code:controlTask.terminationStatus userInfo:nil];
+    }
     else if (controlTask.terminationStatus == kCJDRouteAdminServerAlreadyRunningError) {
         *error = [NSError errorWithDomain:@"cjdroute is already running." code:controlTask.terminationStatus userInfo:nil];
         self.isRunning = YES;
