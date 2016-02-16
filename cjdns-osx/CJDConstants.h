@@ -6,5 +6,8 @@
 //  Copyright © 2016 maz. All rights reserved.
 //
 
-static NSUInteger const kCJDRoutAdminDefaultPort = 11234;
+static NSUInteger const kCJDRouteAdminDefaultPort = 11234;
 static NSString * const kCJDRouteAdminShowWelcomeWindowPreferenceKey = @"ShowWelcomeWindow";
+
+// errors
+static NSUInteger const kCJDRouteAdminServerAlreadyRunningError = 6;

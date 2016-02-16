@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2ACD90021C727F1900009B3A /* cjdroute.conf in Resources */ = {isa = PBXBuildFile; fileRef = 2ACD90011C727F1900009B3A /* cjdroute.conf */; };
+		2ACD90061C72C7DA00009B3A /* WelcomeWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ACD90031C72C7DA00009B3A /* WelcomeWindow.xib */; };
+		2ACD90071C72C7DA00009B3A /* WelcomeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACD90051C72C7DA00009B3A /* WelcomeWindowController.m */; };
+		2ACD90091C72CBE400009B3A /* 509047.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 2ACD90081C72CBE400009B3A /* 509047.jpeg */; };
 		2AF94B531C718C1E00BE2AD1 /* CJDRouteAdminServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */; };
 		2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */ = {isa = PBXBuildFile; fileRef = 2AF94B5A1C7233D500BE2AD1 /* cjdroute */; };
 		68B67AA11A5A2E5E00889FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B67AA01A5A2E5E00889FC8 /* main.m */; };
@@ -44,6 +47,10 @@
 		1A80D84A9940F8971D889441 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1F19CA29568E9F9FFE5C256E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ACD90011C727F1900009B3A /* cjdroute.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cjdroute.conf; sourceTree = "<group>"; };
+		2ACD90031C72C7DA00009B3A /* WelcomeWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeWindow.xib; sourceTree = "<group>"; };
+		2ACD90041C72C7DA00009B3A /* WelcomeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeWindowController.h; sourceTree = "<group>"; };
+		2ACD90051C72C7DA00009B3A /* WelcomeWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeWindowController.m; sourceTree = "<group>"; };
+		2ACD90081C72CBE400009B3A /* 509047.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 509047.jpeg; sourceTree = "<group>"; };
 		2AF94B511C718C1E00BE2AD1 /* CJDRouteAdminServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJDRouteAdminServer.h; path = Classes/CJDRouteAdminServer.h; sourceTree = "<group>"; };
 		2AF94B521C718C1E00BE2AD1 /* CJDRouteAdminServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJDRouteAdminServer.m; path = Classes/CJDRouteAdminServer.m; sourceTree = "<group>"; };
 		2AF94B551C718DCD00BE2AD1 /* CJDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJDConstants.h; sourceTree = "<group>"; };
@@ -151,6 +158,9 @@
 				AD7A5AFE1A5B48E40083E3E9 /* CJDPopupContentViewController.h */,
 				AD7A5AFF1A5B48E40083E3E9 /* CJDPopupContentViewController.m */,
 				AD7A5B001A5B48E40083E3E9 /* CJDPopupContentViewController.xib */,
+				2ACD90031C72C7DA00009B3A /* WelcomeWindow.xib */,
+				2ACD90041C72C7DA00009B3A /* WelcomeWindowController.h */,
+				2ACD90051C72C7DA00009B3A /* WelcomeWindowController.m */,
 				68B67AA21A5A2E5E00889FC8 /* Images.xcassets */,
 				68B67AA41A5A2E5E00889FC8 /* MainMenu.xib */,
 				68B67A9B1A5A2E5E00889FC8 /* Supporting Files */,
@@ -165,6 +175,7 @@
 		68B67A9B1A5A2E5E00889FC8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2ACD90081C72CBE400009B3A /* 509047.jpeg */,
 				2AF94B5A1C7233D500BE2AD1 /* cjdroute */,
 				2ACD90011C727F1900009B3A /* cjdroute.conf */,
 				68B67A9C1A5A2E5E00889FC8 /* Info.plist */,
@@ -294,6 +305,8 @@
 			files = (
 				2AF94B5C1C7233D500BE2AD1 /* cjdroute in Resources */,
 				AD7A5B051A5B48E40083E3E9 /* CJDPopupContentViewController.xib in Resources */,
+				2ACD90091C72CBE400009B3A /* 509047.jpeg in Resources */,
+				2ACD90061C72C7DA00009B3A /* WelcomeWindow.xib in Resources */,
 				68B67AA31A5A2E5E00889FC8 /* Images.xcassets in Resources */,
 				2ACD90021C727F1900009B3A /* cjdroute.conf in Resources */,
 				68B67AA61A5A2E5E00889FC8 /* MainMenu.xib in Resources */,
@@ -370,6 +383,7 @@
 				AD7A5B111A5B88FF0083E3E9 /* CJDNetworkManager.m in Sources */,
 				68B67ACA1A6B2C0300889FC8 /* NSData+Digest.m in Sources */,
 				68B67AD01A6C806100889FC8 /* CJDSession.m in Sources */,
+				2ACD90071C72C7DA00009B3A /* WelcomeWindowController.m in Sources */,
 				2AF94B531C718C1E00BE2AD1 /* CJDRouteAdminServer.m in Sources */,
 				AD7A5B0E1A5B524C0083E3E9 /* GCDAsyncUdpSocket.m in Sources */,
 				68B67AD31A6DFDD100889FC8 /* DKQueue.m in Sources */,
