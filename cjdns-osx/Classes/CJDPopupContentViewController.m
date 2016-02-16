@@ -13,6 +13,7 @@
 
 @interface CJDPopupContentViewController () <NSTableViewDelegate,NSTableViewDataSource>
 - (IBAction)showUtility:(id)sender;
+- (IBAction)openDocumentation:(id)sender;
 - (IBAction)quit:(id)sender;
 @end
 
@@ -47,6 +48,11 @@
 - (IBAction)showUtility:(id)sender
 {
     NSLog(@"show util");
+}
+
+- (IBAction)openDocumentation:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/cjdelisle/cjdns/tree/master/doc"]];
+
 }
 
 - (IBAction)quit:(id)sender

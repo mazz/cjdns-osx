@@ -13,7 +13,9 @@
 #import "CJDPopupContentViewController.h"
 #import "NSImage+Utils.h"
 #import "CJDRouteAdminServer.h"
+#import "WelcomeWindowController.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CJDAppDelegate ()
 @property (strong, nonatomic) CJDSession *session;
 @property (weak) IBOutlet NSWindow *window;
@@ -59,15 +61,33 @@
 {
     NSLog(@"[[NSBundle mainBundle] resourcePath]: %@", [[NSBundle mainBundle] resourcePath]);
 
+    [WelcomeWindowController sharedController].canConnect = NO;
+    [WelcomeWindowController sharedController].isBusy = YES;
+    [WelcomeWindowController sharedController].statusMessage = @"Starting Server…";
+    
+
     self.server = [CJDRouteAdminServer defaultServer];
     [self.server startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
             NSLog(@"self.server start success");
+            [WelcomeWindowController sharedController].statusMessage = nil;
+            [WelcomeWindowController sharedController].isBusy = NO;
+            [WelcomeWindowController sharedController].canConnect = YES;
+
             [self startSession];
         } else {
             NSLog(@"self.server start fail: %@", error);
+            NSString *errorMessage = [NSString stringWithFormat:NSLocalizedString(@"Server startup failed.", nil)];
+//            [self.postgresStatusMenuItemViewController stopAnimatingWithTitle:errorMessage wasSuccessful:NO];
+            [WelcomeWindowController sharedController].statusMessage = errorMessage;
+            [WelcomeWindowController sharedController].isBusy = NO;
+            
+            [[WelcomeWindowController sharedController] showWindow:self];
+            [[WelcomeWindowController sharedController].window presentError:error modalForWindow:[WelcomeWindowController sharedController].window delegate:nil didPresentSelector:NULL contextInfo:NULL];
         }
     }];
+    
+    
     
 
     CJDPopupContentViewController* contentViewController = [[CJDPopupContentViewController alloc] initWithNibName:NSStringFromClass([CJDPopupContentViewController class]) bundle:nil];
@@ -80,6 +100,11 @@
     //    _statusItemPopup.animated = NO;
     // optionally set the popover to the contentview to e.g. hide it from there
     contentViewController.statusItemPopup = _statusItemPopup;
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kCJDRouteAdminShowWelcomeWindowPreferenceKey]) {
+        [[WelcomeWindowController sharedController] showWindow:self];
+    }
+
 }
 
 - (void)startSession {
@@ -111,3 +136,4 @@
 }
 
 @end
+NS_ASSUME_NONNULL_END
