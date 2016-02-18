@@ -12,3 +12,4 @@ static NSString * const kCJDRouteAdminShowWelcomeWindowPreferenceKey = @"ShowWel
 // errors
 static NSUInteger const kCJDRouteAdminAuthenticationFailedError = 1;
 static NSUInteger const kCJDRouteAdminServerAlreadyRunningError = 6;
+static NSUInteger const kCJDRouteAdminCjdRouteConfParseError = 255;

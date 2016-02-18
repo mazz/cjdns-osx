@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 static CJDRouteAdminServer* _sharedServer = nil;
 
+NSString *kCjdRouteDebugOutputCriticalMarker = @"CRITICAL";
+
 @implementation CJDRouteAdminServer
 + (CJDRouteAdminServer*)defaultServer
 {
@@ -76,17 +78,36 @@ static CJDRouteAdminServer* _sharedServer = nil;
     controlTask.launchPath = [self.binPath stringByAppendingPathComponent:@"cjdroute"];
     controlTask.standardInput = [NSFileHandle fileHandleForReadingAtPath:self.confPath];
     controlTask.standardError = [[NSPipe alloc] init];
+    controlTask.standardOutput = [[NSPipe alloc] init];
     [controlTask launch];
     [controlTask waitUntilExit];
+    
     if (controlTask.terminationStatus == 0) {
         self.isRunning = YES;
     }
-    else if (controlTask.terminationStatus == kCJDRouteAdminAuthenticationFailedError) {
-        *error = [NSError errorWithDomain:@"Authentication failed." code:controlTask.terminationStatus userInfo:nil];
-    }
-    else if (controlTask.terminationStatus == kCJDRouteAdminServerAlreadyRunningError) {
-        *error = [NSError errorWithDomain:@"cjdroute is already running." code:controlTask.terminationStatus userInfo:nil];
-        self.isRunning = YES;
+    else {
+        NSString *criticalErrorMessage = nil;
+        NSString *taskOutput = [[NSString alloc] initWithData:[[controlTask.standardOutput fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+        if ([taskOutput containsString:kCjdRouteDebugOutputCriticalMarker]) {
+            NSRange rangeOfCriticalMessage = [taskOutput rangeOfString:kCjdRouteDebugOutputCriticalMarker];
+            NSString *criticalSubstring = [taskOutput substringFromIndex:rangeOfCriticalMessage.location];
+            NSRange rangeOfNextNewline = [criticalSubstring rangeOfString:@"\n"];
+            criticalErrorMessage = [criticalSubstring substringToIndex:rangeOfNextNewline.location];
+        }
+        if (controlTask.terminationStatus == kCJDRouteAdminAuthenticationFailedError) {
+            *error = [NSError errorWithDomain:@"Authentication failed." code:controlTask.terminationStatus userInfo:nil];
+        }
+        else if (controlTask.terminationStatus == kCJDRouteAdminServerAlreadyRunningError) {
+            *error = [NSError errorWithDomain:@"cjdroute is already running." code:controlTask.terminationStatus userInfo:nil];
+            self.isRunning = YES;
+        }
+        else if (controlTask.terminationStatus == kCJDRouteAdminCjdRouteConfParseError) {
+            if (criticalErrorMessage) {
+                *error = [NSError errorWithDomain:[NSString stringWithFormat:@"Could not parse cjdroute.conf file for this reason: %@", criticalErrorMessage] code:controlTask.terminationStatus userInfo:nil];
+            }
+        } else {
+            *error = [NSError errorWithDomain:@"An unknown error occured while starting up." code:controlTask.terminationStatus userInfo:nil];
+        }
     }
     
     return controlTask.terminationStatus == 0;
